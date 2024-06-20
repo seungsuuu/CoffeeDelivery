@@ -44,4 +44,8 @@ public class Order extends TimeStamped{
         this.cafe = cafe;
         this.menuNames = menuNames;
     }
+
+    public void updateOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 }
