@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -31,10 +32,13 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserStatusEnum userStatus;
 
-    // 사용자의 역할을 나타내는 UserRole 엔티티와의 관계
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role", referencedColumnName = "role")
-    private UserRole userRole;
+    @ManyToMany
+    @JoinTable(
+            name = "user_role_matches",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role")
+    )
+    private Set<UserRole> userRoles;
 
     // 컬렉션 객체임을 알려줌
     @ElementCollection
