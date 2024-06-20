@@ -20,8 +20,8 @@ public class UserStatus {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public void setStatus(User user) {
-        this.user = user;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }
