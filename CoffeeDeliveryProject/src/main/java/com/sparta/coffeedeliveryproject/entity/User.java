@@ -60,4 +60,8 @@ public class User {
         this.refreshToken = refreshToken;
     }
 
+    public void addUserRoles(UserRole userRole) {
+        this.userRoles.add(userRole);
+    }
+
 }
