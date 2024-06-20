@@ -14,5 +14,4 @@ public class CafeController {
         this.cafeService = cafeService;
     }
 
-
 }

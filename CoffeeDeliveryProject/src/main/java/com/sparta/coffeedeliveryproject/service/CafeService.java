@@ -12,5 +12,4 @@ public class CafeService {
         this.cafeRepository = cafeRepository;
     }
 
-
 }
