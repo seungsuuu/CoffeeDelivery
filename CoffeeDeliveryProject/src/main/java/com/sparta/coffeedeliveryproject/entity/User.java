@@ -51,11 +51,11 @@ public class User {
     @Column(nullable = false)
     private String refreshToken;
 
-    public User(String userName, String password, String nickName, UserRole userRole, UserStatusEnum userStatusEnum, String refreshToken) {
+    public User(String userName, String password, String nickName, Set<UserRole> userRoles, UserStatusEnum userStatusEnum, String refreshToken) {
         this.userName = userName;
         this.password = password;
         this.nickName = nickName;
-        this.userRole = userRole;
+        this.userRoles = userRoles;
         this.userStatus = userStatusEnum;
         this.refreshToken = refreshToken;
     }
