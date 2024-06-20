@@ -6,7 +6,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Getter
 @NoArgsConstructor
@@ -16,7 +15,7 @@ public class UserRole {
     @Id
     private String role;
 
-    public void setRole(String role) {
+    public UserRole(String role) {
         this.role = role;
     }
 
