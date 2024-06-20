@@ -2,10 +2,8 @@ package com.sparta.coffeedeliveryproject.dto;
 
 import com.sparta.coffeedeliveryproject.entity.User;
 import com.sparta.coffeedeliveryproject.entity.UserRole;
-import com.sparta.coffeedeliveryproject.entity.UserStatus;
+import com.sparta.coffeedeliveryproject.enums.UserStatusEnum;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 public class UserResponseDto {
@@ -18,9 +16,9 @@ public class UserResponseDto {
 
     private String nickName;
 
-    private List<UserRole> userRole;
+    private UserRole userRole;
 
-    private List<UserStatus> userStatus;
+    private UserStatusEnum userStatus;
 
     private String refreshToken;
 
@@ -29,7 +27,7 @@ public class UserResponseDto {
         this.userName = user.getUserName();
         this.password = user.getPassword();
         this.nickName = user.getNickName();
-        this.userRole = user.getUserRoles();
+        this.userRole = user.getUserRole();
         this.userStatus = user.getUserStatus();
         this.refreshToken = user.getRefreshToken();
     }
