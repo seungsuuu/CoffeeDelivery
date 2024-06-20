@@ -1,19 +1,19 @@
 package com.sparta.coffeedeliveryproject.entity;
 
+import com.sparta.coffeedeliveryproject.enums.UserStatusEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -27,11 +27,14 @@ public class User {
     @Column(nullable = false)
     private String nickName;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserRole> userRoles = new ArrayList<>();
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserStatusEnum userStatus;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserStatus> userStatus = new ArrayList<>();
+    // 사용자의 역할을 나타내는 UserRole 엔티티와의 관계
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role", referencedColumnName = "role")
+    private UserRole userRole;
 
     // 컬렉션 객체임을 알려줌
     @ElementCollection
@@ -39,16 +42,18 @@ public class User {
     @CollectionTable(name = "past_passwords", joinColumns = @JoinColumn(name = "user_id"))
     // pastPasswords 테이블의 컬렉션 값이 past_password로 저장
     @Column(name = "past_password")
-    private Queue<String> pastPasswords = new LinkedList<>();
+    private List<String> pastPasswords = new LinkedList<>();
 
     @Column(nullable = false)
     private String refreshToken;
 
-    public User(String userName, String password, String nickName, List<UserRole> userRoles, List<UserStatus> userStatus) {
+    public User(String userName, String password, String nickName, UserRole userRole, UserStatusEnum userStatusEnum, String refreshToken) {
         this.userName = userName;
         this.password = password;
         this.nickName = nickName;
-        this.userRoles = userRoles;
-        this.userStatus = userStatus;
+        this.userRole = userRole;
+        this.userStatus = userStatusEnum;
+        this.refreshToken = refreshToken;
     }
+
 }
