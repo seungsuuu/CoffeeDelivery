@@ -1,6 +1,5 @@
 package com.sparta.coffeedeliveryproject.dto;
 
-import com.sparta.coffeedeliveryproject.entity.Order;
 import com.sparta.coffeedeliveryproject.entity.OrderStatus;
 import lombok.Getter;
 
@@ -9,14 +8,14 @@ import java.util.List;
 @Getter
 public class OrderResponseDto {
 
-    List<OrderRequestDto> orders;
+    private List<String> menuNames;
 
-    int orderPrice;
+    private int orderPrice;
 
-    OrderStatus orderStatus;
+    private OrderStatus orderStatus;
 
-    public OrderResponseDto(List<OrderRequestDto> orders, int orderPrice, OrderStatus orderStatus) {
-        this.orders = orders;
+    public OrderResponseDto(List<String> menuNames, int orderPrice, OrderStatus orderStatus) {
+        this.menuNames = menuNames;
         this.orderPrice = orderPrice;
         this.orderStatus = orderStatus;
     }
