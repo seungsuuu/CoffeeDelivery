@@ -20,6 +20,7 @@ public class Menu {
     @Column(name = "menu_price", nullable = false)
     private Long menuPrice;
 
+    // 밑에 주석 3개는 아직 Cafe Entity가 구현되지 않아 맵핑 부분에 오류가 있어서 주석처리했습니다.
 //    @JoinColumn(name = "cafe_id", nullable = false)
 //    private Cafe cafe;
 
