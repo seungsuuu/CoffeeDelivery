@@ -1,15 +1,17 @@
 package com.sparta.coffeedeliveryproject.entity;
 
-import com.sparta.coffeedeliveryproject.enums.UserRoleEnum;
-import com.sparta.coffeedeliveryproject.enums.UserStatusEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
     @Id
@@ -25,13 +27,11 @@ public class User {
     @Column(nullable = false)
     private String nickName;
 
-    @Column(nullable = false)
-    @Enumerated(value = EnumType.STRING)
-    private UserRoleEnum userRole;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserRole> userRoles = new ArrayList<>();
 
-    @Column(nullable = false)
-    @Enumerated(value = EnumType.STRING)
-    private UserStatusEnum userStatus;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserStatus> userStatus = new ArrayList<>();
 
     // 컬렉션 객체임을 알려줌
     @ElementCollection
@@ -43,4 +43,12 @@ public class User {
 
     @Column(nullable = false)
     private String refreshToken;
+
+    public User(String userName, String password, String nickName, List<UserRole> userRoles, List<UserStatus> userStatus) {
+        this.userName = userName;
+        this.password = password;
+        this.nickName = nickName;
+        this.userRoles = userRoles;
+        this.userStatus = userStatus;
+    }
 }
