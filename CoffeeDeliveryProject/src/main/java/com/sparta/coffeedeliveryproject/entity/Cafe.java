@@ -30,7 +30,7 @@ public class Cafe {
     private Long cafeLikeCount;
 
     @OneToMany
-    private List<Menu> menus = new ArrayList<>();
+    private List<Menu> menuList = new ArrayList<>();
 
     public Cafe(String cafeName, String cafeInfo, String cafeAddress) {
         this.cafeName = cafeName;
@@ -39,8 +39,8 @@ public class Cafe {
         this.cafeLikeCount = 0L;
     }
 
-    public void addMenus(Menu menu) {
-        this.menus.add(menu);
+    public void addMenuList(Menu menu) {
+        this.menuList.add(menu);
     }
 
     public void likeCafe() {
