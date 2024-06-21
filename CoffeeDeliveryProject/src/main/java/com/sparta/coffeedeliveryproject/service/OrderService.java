@@ -1,15 +1,16 @@
 package com.sparta.coffeedeliveryproject.service;
 
-import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.dto.OrderRequestDto;
 import com.sparta.coffeedeliveryproject.dto.OrderResponseDto;
-import com.sparta.coffeedeliveryproject.entity.*;
+import com.sparta.coffeedeliveryproject.entity.Cafe;
+import com.sparta.coffeedeliveryproject.entity.Menu;
+import com.sparta.coffeedeliveryproject.entity.Order;
+import com.sparta.coffeedeliveryproject.entity.OrderStatus;
 import com.sparta.coffeedeliveryproject.repository.CafeRepository;
 import com.sparta.coffeedeliveryproject.repository.MenuRepository;
 import com.sparta.coffeedeliveryproject.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class OrderService {
         return new OrderResponseDto(menuNames, getOrderTotalPrice(orders), OrderStatus.DELIVERY_START);
     }
 
-//    //주문 조회
+//    //주문 조회 (시큐리티 개발되면 주석 풀 예정입니다)
 //    public List<OrderResponseDto> getOrders(User user) {
 //        List<Order> orders = orderRepository.findByUserId(user.getUserId());
 //
@@ -54,22 +55,6 @@ public class OrderService {
 //        return orderResponseDtos;
 //    }
 
-    //주문 상태 변경(완료)
-    @Transactional
-    public MessageResponseDto completeOrder(Long orderId) {
-        Order order = findOrderById(orderId);
-        order.updateOrderStatus(OrderStatus.DELIVERY_COMPLETE);
-        return new MessageResponseDto("배달이 완료되었습니다.");
-    }
-
-    // 주문 상태 변경
-    @Transactional
-    public MessageResponseDto cancelOrder(Long orderId) {
-        Order order = findOrderById(orderId);
-        order.updateOrderStatus(OrderStatus.DELIVERY_CANCEL);
-        return new MessageResponseDto("주문이 취소되었습니다.");
-    }
-
     //id로 메뉴 찾기
     private Menu findMenuById(Long menuId) {
         return menuRepository.findById(menuId).orElseThrow(() ->
@@ -80,12 +65,6 @@ public class OrderService {
     private Cafe findCafeById(Long cafeId) {
         return cafeRepository.findById(cafeId).orElseThrow(() ->
                 new IllegalArgumentException("해당 카페를 찾을 수 없습니다."));
-    }
-
-    //id로 주문 찾기
-    private Order findOrderById(Long orderId) {
-        return orderRepository.findById(orderId).orElseThrow(() ->
-                new IllegalArgumentException("해당 주문을 찾을 수 없습니다."));
     }
 
     //주문 리스트로 총 주문 가격 구하기
