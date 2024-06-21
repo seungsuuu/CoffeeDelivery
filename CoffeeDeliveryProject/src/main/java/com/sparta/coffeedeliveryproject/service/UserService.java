@@ -11,7 +11,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
     // WebSecurityConfig 클래스에 구현 후 사용 예정
 //    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -36,4 +35,5 @@ public class UserService {
 
         return "회원가입 성공";
     }
+
 }

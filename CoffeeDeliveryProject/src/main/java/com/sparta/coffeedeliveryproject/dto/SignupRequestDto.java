@@ -24,5 +24,4 @@ public class SignupRequestDto {
     private String role;
 
     private String adminToken = "";
-
 }
