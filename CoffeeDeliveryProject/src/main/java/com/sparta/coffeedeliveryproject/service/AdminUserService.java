@@ -1,5 +1,6 @@
 package com.sparta.coffeedeliveryproject.service;
 
+import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.dto.UserEditRequestDto;
 import com.sparta.coffeedeliveryproject.dto.UserResponseDto;
 import com.sparta.coffeedeliveryproject.entity.User;
@@ -9,6 +10,7 @@ import com.sparta.coffeedeliveryproject.exceptions.UserNotFoundException;
 import com.sparta.coffeedeliveryproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +35,7 @@ public class AdminUserService {
     @Transactional
     public UserResponseDto editUser(Long userId, UserEditRequestDto userEditRequestDto) {
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("현제 userId로 유저를 찾을 수 없습니다."));
+        User user = findUserById(userId);
 
         if (userEditRequestDto.getNewUserName() != null) {
             user.editUserName(user.getUserName());
@@ -77,5 +78,19 @@ public class AdminUserService {
         }
 
         return new UserResponseDto(user);
+    }
+
+    @Transactional
+    public MessageResponseDto deleteUser(Long userId) {
+        User user = findUserById(userId);
+
+        userRepository.delete(user);
+
+        return new MessageResponseDto("유저가 삭제되었습니다.");
+    }
+
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("현재 userId로 유저를 찾을 수 없습니다."));
     }
 }
