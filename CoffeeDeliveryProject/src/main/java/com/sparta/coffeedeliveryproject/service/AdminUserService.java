@@ -4,13 +4,14 @@ import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.dto.UserEditRequestDto;
 import com.sparta.coffeedeliveryproject.dto.UserResponseDto;
 import com.sparta.coffeedeliveryproject.entity.User;
+import com.sparta.coffeedeliveryproject.entity.UserRole;
 import com.sparta.coffeedeliveryproject.exceptions.PasswordMismatchException;
 import com.sparta.coffeedeliveryproject.exceptions.RecentlyUsedPasswordException;
 import com.sparta.coffeedeliveryproject.exceptions.UserNotFoundException;
 import com.sparta.coffeedeliveryproject.repository.UserRepository;
+import com.sparta.coffeedeliveryproject.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminUserService {
     private final UserRepository userRepository;
+    private final UserRoleRepository userRoleRepository;
 
     public List<UserResponseDto> getAllUsers() {
         List<User> users = userRepository.findAll();
@@ -87,6 +89,23 @@ public class AdminUserService {
         userRepository.delete(user);
 
         return new MessageResponseDto("유저가 삭제되었습니다.");
+    }
+
+    @Transactional
+    public UserResponseDto changeUserRoleToAdmin(Long userId) {
+        User user = findUserById(userId);
+
+        UserRole adminRole = userRoleRepository.findByRole("ADMIN")
+                .orElseThrow(() -> new IllegalArgumentException("ADMIN 이라는 권한을 찾지 못하였습니다."));
+
+        if (user.getUserRoles().contains(adminRole)) {
+            throw new IllegalArgumentException("이미 관리자 권환을 가지고 있습니다.");
+        }
+
+        user.addUserRoles(adminRole);
+        userRepository.save(user);
+
+        return new UserResponseDto(user);
     }
 
     public User findUserById(Long userId) {
