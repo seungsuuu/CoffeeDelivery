@@ -31,7 +31,7 @@ public class User {
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private UserStatusEnum userStatus;
+    private UserStatusEnum userStatus = UserStatusEnum.ACTIVE;
 
     @ManyToMany
     @JoinTable(
@@ -49,16 +49,13 @@ public class User {
     @Column(name = "past_password")
     private Set<String> pastPasswords = new HashSet<>();
 
-    @Column(nullable = false)
+    @Column
     private String refreshToken;
 
-    public User(String userName, String password, String nickName, Set<UserRole> userRoles, UserStatusEnum userStatusEnum, String refreshToken) {
+    public User(String userName, String password, String nickName) {
         this.userName = userName;
         this.password = password;
         this.nickName = nickName;
-        this.userRoles = userRoles;
-        this.userStatus = userStatusEnum;
-        this.refreshToken = refreshToken;
     }
 
     public void addUserRoles(UserRole userRole) {
@@ -75,6 +72,14 @@ public class User {
 
     public void editUserPassword(String password) {
         this.password = password;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 
 }
