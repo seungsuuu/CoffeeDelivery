@@ -1,5 +1,6 @@
 package com.sparta.coffeedeliveryproject.entity;
 
+import com.sparta.coffeedeliveryproject.dto.SignupRequestDto;
 import com.sparta.coffeedeliveryproject.enums.UserStatusEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -56,6 +57,13 @@ public class User {
         this.userName = userName;
         this.password = password;
         this.nickName = nickName;
+    }
+
+    public User(SignupRequestDto signupRequestDto) {
+        this.userName = signupRequestDto.getUserName();
+        this.password = signupRequestDto.getPassword();
+        this.nickName = signupRequestDto.getNickName();
+        this.userRoles = getUserRoles();
     }
 
     public void addUserRoles(UserRole userRole) {
