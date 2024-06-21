@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminUserController {
+
     private final AdminUserService adminUserService;
 
     // 전체 유저 조회
@@ -20,4 +21,5 @@ public class AdminUserController {
     public List<UserResponseDto> gellAllUsers() {
         return adminUserService.getAllUsers();
     }
+
 }
