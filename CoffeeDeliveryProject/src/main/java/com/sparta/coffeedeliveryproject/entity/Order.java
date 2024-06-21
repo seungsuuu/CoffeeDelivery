@@ -31,7 +31,6 @@ public class Order extends TimeStamped{
     @JoinColumn(name = "cafe_id")
     private Cafe cafe;
 
-
     @ElementCollection
     @CollectionTable(name = "menu_names", joinColumns = @JoinColumn(name = "order_id"))
     @Column(name = "menu_name")
@@ -48,4 +47,5 @@ public class Order extends TimeStamped{
     public void updateOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
+
 }
