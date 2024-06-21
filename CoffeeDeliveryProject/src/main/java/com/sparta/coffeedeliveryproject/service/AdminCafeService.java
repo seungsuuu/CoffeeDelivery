@@ -26,4 +26,5 @@ public class AdminCafeService {
 
         return new CafeResponseDto(SaveCafe);
     }
+
 }
