@@ -5,6 +5,7 @@ import com.sparta.coffeedeliveryproject.dto.UserEditRequestDto;
 import com.sparta.coffeedeliveryproject.dto.UserResponseDto;
 import com.sparta.coffeedeliveryproject.entity.User;
 import com.sparta.coffeedeliveryproject.entity.UserRole;
+import com.sparta.coffeedeliveryproject.enums.UserStatusEnum;
 import com.sparta.coffeedeliveryproject.exceptions.PasswordMismatchException;
 import com.sparta.coffeedeliveryproject.exceptions.RecentlyUsedPasswordException;
 import com.sparta.coffeedeliveryproject.exceptions.UserNotFoundException;
@@ -103,6 +104,21 @@ public class AdminUserService {
         }
 
         user.addUserRoles(adminRole);
+        userRepository.save(user);
+
+        return new UserResponseDto(user);
+    }
+
+    @Transactional
+    public UserResponseDto userBlock(Long userId) {
+        User user = findUserById(userId);
+
+        if(user.getUserStatus() == UserStatusEnum.BLOCK) {
+            throw  new IllegalArgumentException("이미 차단된 회원입니다.");
+        }
+
+        user.setUserStatus(UserStatusEnum.BLOCK);
+
         userRepository.save(user);
 
         return new UserResponseDto(user);
