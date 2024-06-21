@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -46,7 +47,7 @@ public class User {
     @CollectionTable(name = "past_passwords", joinColumns = @JoinColumn(name = "user_id"))
     // pastPasswords 테이블의 컬렉션 값이 past_password로 저장
     @Column(name = "past_password")
-    private List<String> pastPasswords = new LinkedList<>();
+    private Set<String> pastPasswords = new HashSet<>();
 
     @Column(nullable = false)
     private String refreshToken;
@@ -62,6 +63,18 @@ public class User {
 
     public void addUserRoles(UserRole userRole) {
         this.userRoles.add(userRole);
+    }
+
+    public void editUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void editUserNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public void editUserPassword(String password) {
+        this.password = password;
     }
 
 }
