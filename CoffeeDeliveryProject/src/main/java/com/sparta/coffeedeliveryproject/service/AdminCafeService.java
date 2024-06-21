@@ -7,11 +7,11 @@ import com.sparta.coffeedeliveryproject.repository.CafeRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CafeService {
+public class AdminCafeService {
 
     private final CafeRepository cafeRepository;
 
-    public CafeService(CafeRepository cafeRepository) {
+    public AdminCafeService(CafeRepository cafeRepository) {
         this.cafeRepository = cafeRepository;
     }
 
