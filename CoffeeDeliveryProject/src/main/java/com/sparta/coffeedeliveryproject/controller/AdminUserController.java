@@ -39,6 +39,12 @@ public class AdminUserController {
         return adminUserService.deleteUser(userId);
     }
 
+    // 특정 유저 admin으로 권한 부여
+    @PutMapping("/users/authority/{userId}")
+    public UserResponseDto changeUserRoleToAdmin(@PathVariable long userId) {
+        return adminUserService.changeUserRoleToAdmin(userId);
+    }
+
     @ExceptionHandler // 에러 핸들링
     private ResponseEntity<String> handleException(RecentlyUsedPasswordException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -52,6 +58,12 @@ public class AdminUserController {
     @ExceptionHandler // 에러 핸들링
     private ResponseEntity<String> handleException(PasswordMismatchException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<String> handleException(IllegalArgumentException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+
     }
 
 }
