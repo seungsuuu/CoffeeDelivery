@@ -5,10 +5,7 @@ import com.sparta.coffeedeliveryproject.service.AdminOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin")
@@ -28,6 +25,13 @@ public class AdminOrderController {
     @PutMapping("/orders/cancel/{orderId}")
     public ResponseEntity<MessageResponseDto> cancelOrder(@PathVariable Long orderId) {
         MessageResponseDto responseDto = adminOrderService.cancelOrder(orderId);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
+    // 주문 삭제
+    @DeleteMapping("/orders/{orderId}")
+    public ResponseEntity<MessageResponseDto> deleteOrder(@PathVariable Long orderId) {
+        MessageResponseDto responseDto = adminOrderService.deleteOrder(orderId);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 

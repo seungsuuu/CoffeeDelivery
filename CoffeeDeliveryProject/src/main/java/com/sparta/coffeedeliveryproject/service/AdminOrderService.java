@@ -30,6 +30,13 @@ public class AdminOrderService {
         return new MessageResponseDto("주문이 취소되었습니다.");
     }
 
+    //주문 삭제
+    public MessageResponseDto deleteOrder(Long orderId) {
+        Order order = findOrderById(orderId);
+        orderRepository.delete(order);
+        return new MessageResponseDto("주문이 삭제되었습니다.");
+    }
+
     //id로 주문 찾기
     private Order findOrderById(Long orderId) {
         return orderRepository.findById(orderId).orElseThrow(() ->
