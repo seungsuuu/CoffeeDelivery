@@ -2,6 +2,7 @@ package com.sparta.coffeedeliveryproject.controller;
 
 import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.entity.User;
+import com.sparta.coffeedeliveryproject.security.UserDetailsImpl;
 import com.sparta.coffeedeliveryproject.service.CafeLikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,8 @@ public class CafeLikeController {
     @DeleteMapping("/{cafeId}/likes")
     public ResponseEntity<MessageResponseDto> unLikeCafe(@PathVariable Long cafeId,
                                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        MessageResponseDto responseDto = cafeLikeService.unLikeCafe(cafeId, userDetails.getUser());
+        MessageResponseDto responseDto = cafeLikeService.unlikeCafe(cafeId, userDetails.getUser());
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
 }
