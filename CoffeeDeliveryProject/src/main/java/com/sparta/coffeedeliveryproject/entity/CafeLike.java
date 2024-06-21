@@ -26,4 +26,5 @@ public class CafeLike {
         this.user = user;
         this.cafe = cafe;
     }
+
 }
