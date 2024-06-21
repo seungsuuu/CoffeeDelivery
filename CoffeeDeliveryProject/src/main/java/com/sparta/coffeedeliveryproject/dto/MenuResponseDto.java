@@ -18,7 +18,7 @@ public class MenuResponseDto {
         this.menuId = menu.getMenuId();
         this.menuName = menu.getMenuName();
         this.menuPrice = menu.getMenuPrice();
-        this.cafeId = menu.getCafeId();
+        this.cafeId = menu.getCafe().getCafeId();
     }
 
 }
