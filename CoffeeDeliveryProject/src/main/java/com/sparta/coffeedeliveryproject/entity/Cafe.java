@@ -33,8 +33,12 @@ public class Cafe {
         this.cafeLikeCount = 0L;
     }
 
-    public void setCafeLikeCount() {
+    public void likeCafe() {
         this.cafeLikeCount ++;
+    }
+
+    public void unlikeCafe() {
+        this.cafeLikeCount --;
     }
 
 }

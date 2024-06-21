@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface CafeLikeRepository extends JpaRepository<CafeLike, Long> {
-    Optional<Object> findByCafeIdAndUserId(Long cafeId, Long userId);
+    Optional<CafeLike> findByCafeIdAndUserId(Long cafeId, Long userId);
 }
