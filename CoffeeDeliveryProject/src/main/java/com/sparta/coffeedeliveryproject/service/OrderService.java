@@ -35,7 +35,7 @@ public class OrderService {
         Order order = new Order(getOrderTotalPrice(orders), OrderStatus.DELIVERY_START/*, user*/, cafe, menuNames);
         orderRepository.save(order);
 
-        return new OrderResponseDto(menuNames, getOrderTotalPrice(orders), OrderStatus.DELIVERY_START);
+        return new OrderResponseDto(menuNames, order.getOrderId(), getOrderTotalPrice(orders), OrderStatus.DELIVERY_START);
     }
 
 //    //주문 조회 (시큐리티 개발되면 주석 풀 예정입니다)
