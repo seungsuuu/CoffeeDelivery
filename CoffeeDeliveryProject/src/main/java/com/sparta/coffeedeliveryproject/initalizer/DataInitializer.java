@@ -50,9 +50,13 @@ public class DataInitializer implements CommandLineRunner {
             user3Roles.add(userRole); // 관리자는 USER 역할과 ADMIN 역할을 모두 가짐
             user3Roles.add(adminRole);
 
-            User user1 = new User("user1", "password123", "NickName1", user1Roles, UserStatusEnum.ACTIVE, "refresh_token_1");
-            User user2 = new User("user2", "password12223", "NickName2", user2Roles, UserStatusEnum.ACTIVE, "refresh_token_1");
-            User user3 = new User("user3", "password123", "NickName3", user3Roles, UserStatusEnum.ACTIVE, "refresh_token_1");
+            User user1 = new User("user1", "password123", "NickName1");
+            User user2 = new User("user2", "password12223", "NickName2");
+            User user3 = new User("user3", "password123", "NickName3");
+
+            user1.setUserRoles(user1Roles);
+            user2.setUserRoles(user2Roles);
+            user3.setUserRoles(user3Roles);
 
             // 유저 role 추가되는 것이 가능한지 테스트
             user2.addUserRoles(adminRole);
