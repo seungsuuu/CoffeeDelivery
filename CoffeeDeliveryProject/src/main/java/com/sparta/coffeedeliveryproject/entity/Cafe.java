@@ -43,4 +43,12 @@ public class Cafe {
         this.menus.add(menu);
     }
 
+    public void likeCafe() {
+        this.cafeLikeCount ++;
+    }
+
+    public void unlikeCafe() {
+        this.cafeLikeCount --;
+    }
+
 }
