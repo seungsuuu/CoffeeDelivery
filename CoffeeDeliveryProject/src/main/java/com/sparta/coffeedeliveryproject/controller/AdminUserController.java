@@ -1,5 +1,6 @@
 package com.sparta.coffeedeliveryproject.controller;
 
+import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.dto.UserEditRequestDto;
 import com.sparta.coffeedeliveryproject.dto.UserResponseDto;
 import com.sparta.coffeedeliveryproject.exceptions.PasswordMismatchException;
@@ -30,6 +31,12 @@ public class AdminUserController {
     @PutMapping("/users/{userId}")
     public UserResponseDto editUser(@PathVariable Long userId, @RequestBody UserEditRequestDto userEditRequestDto) {
         return adminUserService.editUser(userId, userEditRequestDto);
+    }
+
+    // 특정 유저 삭제
+    @DeleteMapping("/users/{userId}")
+    public MessageResponseDto deleteUser(@PathVariable Long userId) {
+        return adminUserService.deleteUser(userId);
     }
 
     @ExceptionHandler // 에러 핸들링
