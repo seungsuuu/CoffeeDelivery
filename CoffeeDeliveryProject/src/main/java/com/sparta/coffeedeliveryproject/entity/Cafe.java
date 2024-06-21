@@ -33,4 +33,8 @@ public class Cafe {
         this.cafeLikeCount = 0L;
     }
 
+    public void setCafeLikeCount() {
+        this.cafeLikeCount ++;
+    }
+
 }

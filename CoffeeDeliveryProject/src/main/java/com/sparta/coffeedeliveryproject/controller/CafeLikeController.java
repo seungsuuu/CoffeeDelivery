@@ -19,7 +19,7 @@ public class CafeLikeController {
 
     private final CafeLikeService cafeLikeService;
 
-    // 게시물 좋아요
+    //카페 좋아요
     @PostMapping("/{cafeId}/likes")
     public ResponseEntity<MessageResponseDto> likeCafe(@PathVariable Long cafeId,
                                                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
