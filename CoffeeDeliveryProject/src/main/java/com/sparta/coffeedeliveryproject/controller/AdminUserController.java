@@ -45,6 +45,12 @@ public class AdminUserController {
         return adminUserService.changeUserRoleToAdmin(userId);
     }
 
+    // 특정 유저 block
+    @PutMapping("/users/block/{userId}")
+    public UserResponseDto userBlock(@PathVariable long userId) {
+        return adminUserService.userBlock(userId);
+    }
+
     @ExceptionHandler // 에러 핸들링
     private ResponseEntity<String> handleException(RecentlyUsedPasswordException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
