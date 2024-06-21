@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -26,11 +29,18 @@ public class Cafe {
     @Column(name = "cafe_like_count")
     private Long cafeLikeCount;
 
+    @OneToMany
+    private List<Menu> menus = new ArrayList<>();
+
     public Cafe(String cafeName, String cafeInfo, String cafeAddress) {
         this.cafeName = cafeName;
         this.cafeInfo = cafeInfo;
         this.cafeAddress = cafeAddress;
         this.cafeLikeCount = 0L;
+    }
+
+    public void addMenus(Menu menu) {
+        this.menus.add(menu);
     }
 
 }
