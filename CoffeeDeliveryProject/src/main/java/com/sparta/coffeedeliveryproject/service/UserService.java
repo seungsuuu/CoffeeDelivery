@@ -8,6 +8,7 @@ import com.sparta.coffeedeliveryproject.exceptions.PasswordMismatchException;
 import com.sparta.coffeedeliveryproject.exceptions.RecentlyUsedPasswordException;
 import com.sparta.coffeedeliveryproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,15 +16,14 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    // WebSecurityConfig 클래스에 구현 후 사용 예정
-//    private final PasswordEncoder passwordEncoder;
+
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     public String signup(SignupRequestDto signupRequestDto) {
 
         String nickName = signupRequestDto.getNickName();
-        // WebSecurityConfig 클래스 구현 후 비밀번호 인코딩 예정
-        String password = signupRequestDto.getPassword();
+        String password = passwordEncoder.encode(signupRequestDto.getPassword());
         signupRequestDto.setPassword(password);
 
         // 회원 중복 확인
