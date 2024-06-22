@@ -43,6 +43,14 @@ public class Cafe {
         this.menuList.add(menu);
     }
 
+    public void editCafeInfo(String cafeInfo) {
+        this.cafeInfo = cafeInfo;
+    }
+
+    public void editCafeAddress(String cafeAddress) {
+        this.cafeAddress = cafeAddress;
+    }
+
     public void likeCafe() {
         this.cafeLikeCount ++;
     }

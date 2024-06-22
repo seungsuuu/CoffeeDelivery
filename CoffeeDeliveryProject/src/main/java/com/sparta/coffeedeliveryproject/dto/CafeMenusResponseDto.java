@@ -3,7 +3,6 @@ package com.sparta.coffeedeliveryproject.dto;
 import com.sparta.coffeedeliveryproject.entity.Cafe;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
