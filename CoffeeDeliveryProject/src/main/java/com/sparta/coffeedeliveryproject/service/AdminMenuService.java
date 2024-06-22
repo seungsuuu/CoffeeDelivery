@@ -10,12 +10,12 @@ import com.sparta.coffeedeliveryproject.repository.MenuRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MenuService {
+public class AdminMenuService {
 
     private final MenuRepository menuRepository;
     private final CafeRepository cafeRepository;
 
-    public MenuService(MenuRepository menuRepository, CafeRepository cafeRepository) {
+    public AdminMenuService(MenuRepository menuRepository, CafeRepository cafeRepository) {
         this.menuRepository = menuRepository;
         this.cafeRepository = cafeRepository;
     }
@@ -29,6 +29,7 @@ public class MenuService {
         String menuName = requestDto.getMenuName();
         Long menuPrice = requestDto.getMenuPrice();
         Menu menu = new Menu(menuName, menuPrice, cafe);
+        cafe.addMenuList(menu);
 
         Menu saveMenu = menuRepository.save(menu);
 
