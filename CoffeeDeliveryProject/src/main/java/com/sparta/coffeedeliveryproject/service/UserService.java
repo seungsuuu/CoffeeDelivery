@@ -1,5 +1,6 @@
 package com.sparta.coffeedeliveryproject.service;
 
+import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.dto.SignupRequestDto;
 import com.sparta.coffeedeliveryproject.dto.UserProfileEditRequestDto;
 import com.sparta.coffeedeliveryproject.dto.UserProfileEditResponseDto;
@@ -8,6 +9,7 @@ import com.sparta.coffeedeliveryproject.exceptions.PasswordMismatchException;
 import com.sparta.coffeedeliveryproject.exceptions.RecentlyUsedPasswordException;
 import com.sparta.coffeedeliveryproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

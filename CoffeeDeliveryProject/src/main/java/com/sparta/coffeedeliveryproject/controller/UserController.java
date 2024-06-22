@@ -1,5 +1,6 @@
 package com.sparta.coffeedeliveryproject.controller;
 
+import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.dto.SignupRequestDto;
 import com.sparta.coffeedeliveryproject.dto.UserProfileEditRequestDto;
 import com.sparta.coffeedeliveryproject.dto.UserProfileEditResponseDto;
@@ -28,6 +29,11 @@ public class UserController {
     @PutMapping("/profile")
     public UserProfileEditResponseDto editProfile(@RequestBody UserProfileEditRequestDto userProfileEditRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return userService.editProfile(userProfileEditRequestDto, userDetails.getUser().getUserId());
+    }
+
+    @PostMapping("/loggout")
+    public MessageResponseDto logout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return userService.logout(userDetails.getUser().getUserId());
     }
 
     @ExceptionHandler
