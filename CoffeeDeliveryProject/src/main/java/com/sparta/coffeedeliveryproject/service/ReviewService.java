@@ -9,6 +9,7 @@ import com.sparta.coffeedeliveryproject.repository.CafeRepository;
 import com.sparta.coffeedeliveryproject.repository.OrderRepository;
 import com.sparta.coffeedeliveryproject.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,6 +60,20 @@ public class ReviewService {
             return new ReviewResponseDto(review);
          }else throw new IllegalArgumentException("본인이 작성한 리뷰만 수정 가능합니다.");
         */
+    }
+
+    public ResponseEntity<String> deleteReview(Long reviewId) {
+
+        Review review = findReviewById(reviewId);
+        reviewRepository.delete(review);
+        return ResponseEntity.ok("리뷰가 삭제되었습니다.");
+
+        /*
+        if(review.getUser().getId() == user.getId()){
+            reviewRepository.delete(review);
+            return ResponseEntity.ok("리뷰가 삭제되었습니다.");
+         }else throw new IllegalArgumentException("본인이 작성한 리뷰만 삭제 가능합니다.");
+         */
     }
 
     private Review findReviewById(Long reviewId) {

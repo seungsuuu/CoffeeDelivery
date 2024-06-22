@@ -5,6 +5,7 @@ import com.sparta.coffeedeliveryproject.dto.ReviewResponseDto;
 import com.sparta.coffeedeliveryproject.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +43,11 @@ public class ReviewController {
                                           @Valid @RequestBody ReviewRequestDto requestDto/*,
                                           @AuthenticationPrincipal UserDetailsImpl userDetails*/){
         return reviewService.updateReview(reviewId, requestDto/*, userDetails.getUser()*/);
+    }
+
+    @DeleteMapping("/reviews/{reviewId}")
+    public ResponseEntity<String> deleteReview(@PathVariable Long reviewId/*, @AuthenticationPrincipal UserDetailsImpl userDetails*/){
+        return reviewService.deleteReview(reviewId/*, userDetails.getUser()*/);
     }
 
 }
