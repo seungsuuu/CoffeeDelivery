@@ -29,7 +29,7 @@ public class Cafe {
     @Column(name = "cafe_like_count")
     private Long cafeLikeCount;
 
-    @OneToMany
+    @OneToMany(mappedBy = "cafe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Menu> menuList = new ArrayList<>();
 
     public Cafe(String cafeName, String cafeInfo, String cafeAddress) {
