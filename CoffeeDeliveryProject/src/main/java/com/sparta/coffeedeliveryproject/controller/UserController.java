@@ -6,6 +6,7 @@ import com.sparta.coffeedeliveryproject.dto.UserProfileEditRequestDto;
 import com.sparta.coffeedeliveryproject.dto.UserProfileEditResponseDto;
 import com.sparta.coffeedeliveryproject.security.UserDetailsImpl;
 import com.sparta.coffeedeliveryproject.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,10 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody SignupRequestDto signupRequestDto) {
+    public ResponseEntity<MessageResponseDto> signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
 
-        userService.signup(signupRequestDto);
-        return ResponseEntity.ok("회원가입 성공");
+        MessageResponseDto responseDto = userService.signup(signupRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
     @PutMapping("/profile")
