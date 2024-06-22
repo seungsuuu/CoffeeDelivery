@@ -55,6 +55,12 @@ public class Review extends TimeStamped{
         this.reviewLikeCount = 0;
     }
 
+//    public Review(ReviewRequestDto requestDto, Cafe cafe){
+//        this.reviewContent = requestDto.getReviewContent();
+//        this.cafe = cafe;
+//        this.reviewLikeCount = 0;
+//    }
+
     public void update(ReviewRequestDto requestDto){
         this.reviewContent = requestDto.getReviewContent();
         this.modifiedAt = LocalDateTime.now();
