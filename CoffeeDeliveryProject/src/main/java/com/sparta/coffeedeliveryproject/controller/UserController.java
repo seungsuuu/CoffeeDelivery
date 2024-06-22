@@ -1,5 +1,6 @@
 package com.sparta.coffeedeliveryproject.controller;
 
+import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.dto.SignupRequestDto;
 import com.sparta.coffeedeliveryproject.dto.UserProfileEditRequestDto;
 import com.sparta.coffeedeliveryproject.dto.UserProfileEditResponseDto;
@@ -20,10 +21,10 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
+    public ResponseEntity<MessageResponseDto> signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
 
-        userService.signup(signupRequestDto);
-        return ResponseEntity.ok("회원가입 성공");
+        MessageResponseDto responseDto = userService.signup(signupRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
     @PutMapping("/profile")

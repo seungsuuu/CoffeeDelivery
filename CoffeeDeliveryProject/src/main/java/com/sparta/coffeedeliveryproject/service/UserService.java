@@ -1,5 +1,6 @@
 package com.sparta.coffeedeliveryproject.service;
 
+import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.dto.SignupRequestDto;
 import com.sparta.coffeedeliveryproject.dto.UserProfileEditRequestDto;
 import com.sparta.coffeedeliveryproject.dto.UserProfileEditResponseDto;
@@ -20,7 +21,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public String signup(SignupRequestDto signupRequestDto) {
+    public MessageResponseDto signup(SignupRequestDto signupRequestDto) {
 
         String nickName = signupRequestDto.getNickName();
         String password = passwordEncoder.encode(signupRequestDto.getPassword());
@@ -37,7 +38,7 @@ public class UserService {
 
         userRepository.save(user);
 
-        return "회원가입 성공";
+        return new MessageResponseDto("회원가입이 완료되었습니다.");
     }
 
     public UserProfileEditResponseDto editProfile(UserProfileEditRequestDto userProfileEditRequestDto, Long userId) {
