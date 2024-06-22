@@ -3,6 +3,7 @@ package com.sparta.coffeedeliveryproject.service;
 import com.sparta.coffeedeliveryproject.dto.CafeEditRequestDto;
 import com.sparta.coffeedeliveryproject.dto.CafeRequestDto;
 import com.sparta.coffeedeliveryproject.dto.CafeResponseDto;
+import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.entity.Cafe;
 import com.sparta.coffeedeliveryproject.repository.CafeRepository;
 import org.springframework.data.domain.Page;
@@ -63,6 +64,15 @@ public class AdminCafeService {
         }
 
         return new CafeResponseDto(cafe);
+    }
+
+    public MessageResponseDto deleteCafe(Long cafeId) {
+
+        Cafe cafe = findCafeById(cafeId);
+
+        cafeRepository.delete(cafe);
+
+        return new MessageResponseDto("삭제 완료 되었습니다.");
     }
 
     private Cafe findCafeById(Long cafeId){
