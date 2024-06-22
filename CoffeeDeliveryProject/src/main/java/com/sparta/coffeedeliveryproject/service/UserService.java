@@ -9,6 +9,7 @@ import com.sparta.coffeedeliveryproject.exceptions.PasswordMismatchException;
 import com.sparta.coffeedeliveryproject.exceptions.RecentlyUsedPasswordException;
 import com.sparta.coffeedeliveryproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -80,6 +81,21 @@ public class UserService {
 
         return new UserProfileEditResponseDto(user);
 
+    }
+
+    public MessageResponseDto logout(Long userId) {
+        User user = findUserById(userId);
+
+        // 리프래시 토큰 초기화
+        user.editRefreshToken(null);
+
+        // 사용자 정보 저장
+        userRepository.save(user);
+
+        // SecurityContextHolder 초기화
+        SecurityContextHolder.clearContext();
+
+        return new MessageResponseDto("로그아웃이 완료되었습니다.");
     }
 
     private User findUserById(Long userId) {
