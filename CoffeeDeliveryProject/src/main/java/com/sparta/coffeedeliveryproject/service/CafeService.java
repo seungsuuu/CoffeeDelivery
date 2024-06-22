@@ -1,6 +1,9 @@
 package com.sparta.coffeedeliveryproject.service;
 
+import com.sparta.coffeedeliveryproject.dto.CafeMenuListResponseDto;
 import com.sparta.coffeedeliveryproject.dto.CafeResponseDto;
+import com.sparta.coffeedeliveryproject.dto.MenuResponseDto;
+import com.sparta.coffeedeliveryproject.entity.Cafe;
 import com.sparta.coffeedeliveryproject.repository.CafeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +41,17 @@ public class CafeService {
         }
 
         return responseDtoList;
+    }
+
+    public CafeMenuListResponseDto getCafeWithMenuList(Long cafeId) {
+
+        Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(
+                () -> new IllegalArgumentException("해당 카페 페이지를 찾을 수 없습니다.")
+        );
+
+        List<MenuResponseDto> menuList = cafe.getMenuList().stream().map(MenuResponseDto::new).toList();
+
+        return new CafeMenuListResponseDto(cafe, menuList);
     }
 
 }
