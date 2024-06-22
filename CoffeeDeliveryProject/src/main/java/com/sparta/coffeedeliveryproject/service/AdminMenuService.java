@@ -29,6 +29,7 @@ public class AdminMenuService {
         String menuName = requestDto.getMenuName();
         Long menuPrice = requestDto.getMenuPrice();
         Menu menu = new Menu(menuName, menuPrice, cafe);
+        cafe.addMenuList(menu);
 
         Menu saveMenu = menuRepository.save(menu);
 
