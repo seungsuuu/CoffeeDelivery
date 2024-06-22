@@ -81,6 +81,21 @@ public class UserService {
 
     }
 
+    public MessageResponseDto logout(Long userId) {
+        User user = findUserById(userId);
+
+        // 리프래시 토큰 초기화
+        user.editRefreshToken(null);
+
+        // 사용자 정보 저장
+        userRepository.save(user);
+
+        // SecurityContextHolder 초기화
+        SecurityContextHolder.clearContext();
+
+        return new MessageResponseDto("로그아웃이 완료되었습니다.");
+    }
+
     private User findUserById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자의 프로필을 찾을 수 없습니다."));
