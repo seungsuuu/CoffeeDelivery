@@ -1,5 +1,6 @@
 package com.sparta.coffeedeliveryproject.service;
 
+import com.sparta.coffeedeliveryproject.dto.CafeEditRequestDto;
 import com.sparta.coffeedeliveryproject.dto.CafeRequestDto;
 import com.sparta.coffeedeliveryproject.dto.CafeResponseDto;
 import com.sparta.coffeedeliveryproject.entity.Cafe;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -45,6 +47,29 @@ public class AdminCafeService {
         }
 
         return responseDtoList;
+    }
+
+    @Transactional
+    public CafeResponseDto editCafe(Long cafeId, CafeEditRequestDto requestDto) {
+
+        Cafe cafe = findCafeById(cafeId);
+
+        if(!(requestDto.getNewCafeInfo() == null || requestDto.getNewCafeInfo().isEmpty())) {
+            cafe.editCafeInfo(requestDto.getNewCafeInfo());
+        }
+
+        if(!(requestDto.getNewCafeAddress() == null || requestDto.getNewCafeAddress().isEmpty())) {
+            cafe.editCafeAddress(requestDto.getNewCafeAddress());
+        }
+
+        return new CafeResponseDto(cafe);
+    }
+
+    private Cafe findCafeById(Long cafeId){
+
+        return cafeRepository.findById(cafeId).orElseThrow(
+                () -> new IllegalArgumentException("해당 카페 페이지를 찾을 수 없습니다.")
+        );
     }
 
 }

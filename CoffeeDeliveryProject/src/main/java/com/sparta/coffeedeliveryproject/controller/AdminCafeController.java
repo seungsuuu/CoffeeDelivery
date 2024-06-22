@@ -1,5 +1,6 @@
 package com.sparta.coffeedeliveryproject.controller;
 
+import com.sparta.coffeedeliveryproject.dto.CafeEditRequestDto;
 import com.sparta.coffeedeliveryproject.dto.CafeRequestDto;
 import com.sparta.coffeedeliveryproject.dto.CafeResponseDto;
 import com.sparta.coffeedeliveryproject.service.AdminCafeService;
@@ -33,6 +34,15 @@ public class AdminCafeController {
         List<CafeResponseDto> responseDtoList = adminCafeService.getAllCafe(page - 1);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseDtoList);
+    }
+
+    @PutMapping("/cafes/{cafeId}")
+    public ResponseEntity<CafeResponseDto> editCafe(@PathVariable(value = "cafeId") Long cafeId,
+                                                    @RequestBody CafeEditRequestDto requestDto) {
+
+        CafeResponseDto responseDto = adminCafeService.editCafe(cafeId, requestDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
 }
