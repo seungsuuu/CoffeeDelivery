@@ -29,6 +29,12 @@ public class AdminCafeService {
         String cafeName = requestDto.getCafeName();
         String cafeInfo = requestDto.getCafeInfo();
         String cafeAddress = requestDto.getCafeAddress();
+
+        // 중복된 cafeName 있는지 확인
+        if (cafeRepository.findByCafeName(cafeName).isPresent()) {
+            throw new IllegalArgumentException("이미 작성된 카페입니다.");
+        }
+
         Cafe cafe = new Cafe(cafeName, cafeInfo, cafeAddress);
 
         Cafe SaveCafe = cafeRepository.save(cafe);
@@ -55,11 +61,11 @@ public class AdminCafeService {
 
         Cafe cafe = findCafeById(cafeId);
 
-        if(!(requestDto.getNewCafeInfo() == null || requestDto.getNewCafeInfo().isEmpty())) {
+        if (!(requestDto.getNewCafeInfo() == null || requestDto.getNewCafeInfo().isEmpty())) {
             cafe.editCafeInfo(requestDto.getNewCafeInfo());
         }
 
-        if(!(requestDto.getNewCafeAddress() == null || requestDto.getNewCafeAddress().isEmpty())) {
+        if (!(requestDto.getNewCafeAddress() == null || requestDto.getNewCafeAddress().isEmpty())) {
             cafe.editCafeAddress(requestDto.getNewCafeAddress());
         }
 
@@ -75,7 +81,7 @@ public class AdminCafeService {
         return new MessageResponseDto("삭제 완료 되었습니다.");
     }
 
-    private Cafe findCafeById(Long cafeId){
+    private Cafe findCafeById(Long cafeId) {
 
         return cafeRepository.findById(cafeId).orElseThrow(
                 () -> new IllegalArgumentException("해당 카페 페이지를 찾을 수 없습니다.")
