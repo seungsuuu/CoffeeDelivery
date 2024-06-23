@@ -17,24 +17,25 @@ public class Review extends TimeStamped{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_id")
     private Long reviewId;
 
     @Column(name = "reviewContent", nullable = false)
     private String reviewContent;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
+//    @ManyToOne
 //    @JoinColumn(name = "user_id", nullable = false)
 //    private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cafe_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "cafeId", nullable = false)
     private Cafe cafe;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @Column
+    @Column(name = "review_like_count")
     private int reviewLikeCount;
 
     @CreatedDate
@@ -54,12 +55,6 @@ public class Review extends TimeStamped{
 //        this.user = user;
         this.reviewLikeCount = 0;
     }
-
-//    public Review(ReviewRequestDto requestDto, Cafe cafe){
-//        this.reviewContent = requestDto.getReviewContent();
-//        this.cafe = cafe;
-//        this.reviewLikeCount = 0;
-//    }
 
     public void update(ReviewRequestDto requestDto){
         this.reviewContent = requestDto.getReviewContent();
