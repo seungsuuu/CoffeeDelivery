@@ -5,6 +5,7 @@ import com.sparta.coffeedeliveryproject.dto.CafeRequestDto;
 import com.sparta.coffeedeliveryproject.dto.CafeResponseDto;
 import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.service.AdminCafeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class AdminCafeController {
     }
 
     @PostMapping("/cafes")
-    public ResponseEntity<CafeResponseDto> createCafe(@RequestBody CafeRequestDto requestDto) {
+    public ResponseEntity<CafeResponseDto> createCafe(@Valid @RequestBody CafeRequestDto requestDto) {
 
         CafeResponseDto responseDto = adminCafeService.createCafe(requestDto);
 
