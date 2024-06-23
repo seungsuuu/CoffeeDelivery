@@ -36,6 +36,8 @@ public class ReviewService {
 
     public List<ReviewResponseDto> getReviewCafe(Long cafeId) {
 
+        // Repository에서 'findAllByCafeId' 오류 발생해서 'findAllByCafeCafeId'로 작성
+        // 'findAllByCafeCafeId' 오류 발생하면 'findAllByCafeId' 로 변경해서 사용
         List<Review> reviews = reviewRepository.findAllByCafeCafeId(cafeId);
 
         return reviews.stream().map(ReviewResponseDto::new).toList();
