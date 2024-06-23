@@ -25,18 +25,10 @@ public class ReviewController {
         return reviewService.createReview(cafeId, orderId, requestDto/*, userDetails.getUser()*/);
     }
 
-//    @GetMapping("/{cafeId}/reviews")
-//    public ReviewResponseDto getReview(@PathVariable Long cafeId,
-//                                        @RequestBody ReviewRequestDto requestDto){
-//
-//        return reviewService.getReview(cafeId);
-//
-//    }
-
-//    @GetMapping("/reviews")
-//    public List<ReviewResponseDto> getReview(){
-//        return reviewService.getReview();
-//    }
+    @GetMapping("/{cafeId}/reviews")
+    public List<ReviewResponseDto> getReviewCafe(@PathVariable Long cafeId){
+        return reviewService.getReviewCafe(cafeId);
+    }
 
     @PutMapping("/reviews/{reviewId}")
     public ReviewResponseDto updateReview(@PathVariable Long reviewId,

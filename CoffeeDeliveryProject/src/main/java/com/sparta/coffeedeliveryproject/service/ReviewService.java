@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,20 +34,26 @@ public class ReviewService {
 
     }
 
-//    public ReviewResponseDto getReview(Long cafeId, ReviewRequestDto requestDto) {
+//    public ReviewResponseDto getReview(Long cafeId) {
 //
-//        Cafe cafe = findCafeById(cafeId);
-//        Review review = new Review(requestDto, cafe);
-//        Review getReview = reviewRepository.findAll(review);
+//        Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() ->
+//                new IllegalArgumentException("해당 카페는 존재하지 않습니다."));
 //
-//        return new ReviewResponseDto(review);
+//        List<Review> reviews = reviewRepository.findAll(cafeId);
+//
+//        return reviews.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
+//
 //
 //    }
 
-//    public List<ReviewResponseDto> getReview() {
-//
-//        return reviewRepository.findAllByReviewByCreatedAtDesc().stream().map(ReviewResponseDto::new).toList();
-//    }
+    public List<ReviewResponseDto> getReviewCafe(Long cafeId) {
+
+        List<Review> reviews = reviewRepository.findAllByCafeCafeId(cafeId);
+
+        return reviews.stream().map(ReviewResponseDto::new).toList();
+
+
+    }
 
     @Transactional
     public ReviewResponseDto updateReview(Long reviewId, ReviewRequestDto requestDto/*, User user*/) {
