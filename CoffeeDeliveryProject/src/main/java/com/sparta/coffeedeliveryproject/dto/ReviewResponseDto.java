@@ -21,4 +21,5 @@ public class ReviewResponseDto {
         this.modifiedAt = review.getModifiedAt();
         this.reviewLikeCount = review.getReviewLikeCount();
     }
+
 }
