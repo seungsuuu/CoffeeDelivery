@@ -59,13 +59,17 @@ public class AdminCafeService {
     @Transactional
     public CafeResponseDto editCafe(Long cafeId, CafeEditRequestDto requestDto) {
 
+        if (isNullAndEmpty(requestDto.getNewCafeInfo()) && isNullAndEmpty(requestDto.getNewCafeAddress())) {
+            throw new IllegalArgumentException("수정으로 요청된 값이 없습니다.");
+        }
+
         Cafe cafe = findCafeById(cafeId);
 
-        if (!(requestDto.getNewCafeInfo() == null || requestDto.getNewCafeInfo().isEmpty())) {
+        if (!isNullAndEmpty(requestDto.getNewCafeInfo())) {
             cafe.editCafeInfo(requestDto.getNewCafeInfo());
         }
 
-        if (!(requestDto.getNewCafeAddress() == null || requestDto.getNewCafeAddress().isEmpty())) {
+        if (!isNullAndEmpty(requestDto.getNewCafeAddress())) {
             cafe.editCafeAddress(requestDto.getNewCafeAddress());
         }
 
@@ -86,6 +90,11 @@ public class AdminCafeService {
         return cafeRepository.findById(cafeId).orElseThrow(
                 () -> new IllegalArgumentException("해당 카페 페이지를 찾을 수 없습니다.")
         );
+    }
+
+    // String 요청 데이터가 비어 있느지 확인하는 메서드
+    private boolean isNullAndEmpty(String string) {
+        return string == null || string.isEmpty();
     }
 
 }
