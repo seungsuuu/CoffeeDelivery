@@ -34,24 +34,11 @@ public class ReviewService {
 
     }
 
-//    public ReviewResponseDto getReview(Long cafeId) {
-//
-//        Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() ->
-//                new IllegalArgumentException("해당 카페는 존재하지 않습니다."));
-//
-//        List<Review> reviews = reviewRepository.findAll(cafeId);
-//
-//        return reviews.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
-//
-//
-//    }
-
     public List<ReviewResponseDto> getReviewCafe(Long cafeId) {
 
         List<Review> reviews = reviewRepository.findAllByCafeCafeId(cafeId);
 
         return reviews.stream().map(ReviewResponseDto::new).toList();
-
 
     }
 
@@ -60,6 +47,7 @@ public class ReviewService {
 
         Review review = findReviewById(reviewId);
         review.update(requestDto);
+
         return new ReviewResponseDto(review);
         /*
         if(review.getUser().getId() == user.getId()){
@@ -73,8 +61,8 @@ public class ReviewService {
 
         Review review = findReviewById(reviewId);
         reviewRepository.delete(review);
-        return ResponseEntity.ok("리뷰가 삭제되었습니다.");
 
+        return ResponseEntity.ok("리뷰가 삭제되었습니다.");
         /*
         if(review.getUser().getId() == user.getId()){
             reviewRepository.delete(review);
