@@ -1,7 +1,5 @@
 package com.sparta.coffeedeliveryproject.jwt;
 
-import com.sparta.coffeedeliveryproject.entity.User;
-import com.sparta.coffeedeliveryproject.entity.UserRole;
 import com.sparta.coffeedeliveryproject.enums.UserStatusEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -14,16 +12,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
-    // Header KEY 값
+    // Access Token Header KEY 값
     public static final String AUTHORIZATION_HEADER = "Authorization";
+    // Refresh Token Header KEY 값
+    public static final String REFRESH_HEADER = "refresh";
     // 사용자 권한 값의 KEY
     public static final String AUTHORIZATION_KEY = "auth";
     // Token 식별자
@@ -63,11 +61,13 @@ public class JwtUtil {
                         .compact();
     }
 
-    public String createRefreshToken(User user) {
+    public String createRefreshToken(String userName, UserStatusEnum userStatus) {
         Date date = new Date();
 
         return BEARER_PREFIX +
                 Jwts.builder()
+                        .setSubject(userName) // 사용자 식별자값(ID)
+                        .claim(AUTHORIZATION_KEY, userStatus) // 사용자 권한
                         .setExpiration(new Date(date.getTime() + REFRESHTOKEN_TIME)) // 만료 시간
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
@@ -75,19 +75,18 @@ public class JwtUtil {
 
     }
 
-    public void addJwtToHeader(String token, HttpServletResponse res) {
-
-        res.addHeader(AUTHORIZATION_HEADER, token);
+    public void addJwtToHeader(String tokenHeader, String token, HttpServletResponse res) {
+        res.addHeader(tokenHeader, token);
     }
 
-    // AccessToken을 header에서 가져와서 반환하는 메서드
-    public String getAccessTokenFromHeader(HttpServletRequest request) {
-        // header에서 AccessToken을 가져온다.
-        String accessToken = request.getHeader(AUTHORIZATION_HEADER);
+    // token을 header에서 가져와서 반환하는 메서드
+    public String getTokenFromHeader(String tokenHeader, HttpServletRequest request) {
+        // header에서 token을 가져온다.
+        String token = request.getHeader(tokenHeader);
         // 공백(null)인지 && BEARER로 시작을 하는지 확인
-        if (StringUtils.hasText(accessToken) && accessToken.startsWith(BEARER_PREFIX)) {
+        if (StringUtils.hasText(token) && token.startsWith(BEARER_PREFIX)) {
             // 둘 다 만족할 경우 BEARER 뒤에 공백 길이만큼 잘라내고 순수한 토큰 값만을 리턴
-            return accessToken.substring(BEARER_PREFIX.length());
+            return token.substring(BEARER_PREFIX.length());
         }
         return null;
     }
