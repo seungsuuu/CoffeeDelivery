@@ -17,7 +17,6 @@ public class ReviewLikeService {
     private final ReviewLikeRepository reviewLikeRepository;
     private final ReviewRepository reviewRepository;
 
-
     // 리뷰 좋아요
     @Transactional
     public MessageResponseDto likeReview(Long reviewId, User user) {
