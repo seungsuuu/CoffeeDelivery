@@ -63,7 +63,6 @@ public class User {
         this.userName = signupRequestDto.getUserName();
         this.password = signupRequestDto.getPassword();
         this.nickName = signupRequestDto.getNickName();
-        this.userRoles = getUserRoles();
     }
 
     public void addUserRoles(UserRole userRole) {

@@ -2,26 +2,34 @@ package com.sparta.coffeedeliveryproject.service;
 
 import com.sparta.coffeedeliveryproject.dto.*;
 import com.sparta.coffeedeliveryproject.entity.User;
+import com.sparta.coffeedeliveryproject.entity.UserRole;
 import com.sparta.coffeedeliveryproject.enums.UserStatusEnum;
 import com.sparta.coffeedeliveryproject.exceptions.PasswordMismatchException;
 import com.sparta.coffeedeliveryproject.exceptions.RecentlyUsedPasswordException;
 import com.sparta.coffeedeliveryproject.jwt.JwtUtil;
 import com.sparta.coffeedeliveryproject.repository.UserRepository;
+import com.sparta.coffeedeliveryproject.repository.UserRoleRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
+    private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
+    @Value("${ADMIN_TOKEN}")
+    String adminToken;
 
     public MessageResponseDto signup(SignupRequestDto signupRequestDto) {
 
@@ -37,6 +45,29 @@ public class UserService {
 
         // 사용자 등록
         User user = new User(signupRequestDto);
+
+        Set<UserRole> userRoles = new HashSet<>();
+
+        if (!signupRequestDto.getRole().isEmpty()) {
+            if (signupRequestDto.getRole().equals("ADMIN")) {
+                if (signupRequestDto.getAdminToken() != null && signupRequestDto.getAdminToken().equals(adminToken)) {
+                    UserRole userRole = findRole(signupRequestDto.getRole());
+                    userRoles.add(userRole);
+                } else {
+                    throw new IllegalArgumentException("adminToken이 올바르지 않습니다.");
+                }
+            }else if(signupRequestDto.getRole().equals("USER")) {
+                UserRole userRole = findRole("USER");
+                userRoles.add(userRole);
+            } else {
+                throw new IllegalArgumentException("올바르지 않은 role값 입니다.");
+            }
+        } else {
+            UserRole userRole = findRole("USER");
+            userRoles.add(userRole);
+        }
+
+        user.setUserRoles(userRoles);
 
         userRepository.save(user);
 
@@ -128,6 +159,11 @@ public class UserService {
     private User findUserById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자의 프로필을 찾을 수 없습니다."));
+    }
+
+    private UserRole findRole(String role) {
+        return userRoleRepository.findByRole(role)
+                .orElseThrow(() -> new IllegalArgumentException("사용자의 권한을 찾을 수 없습니다."));
     }
 
 }
