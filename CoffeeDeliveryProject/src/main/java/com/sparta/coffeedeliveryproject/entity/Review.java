@@ -23,9 +23,9 @@ public class Review extends TimeStamped{
     @Column(name = "reviewContent", nullable = false)
     private String reviewContent;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     // cafe_id에서 _인식 못해서 cafeId로 변경
     @ManyToOne
@@ -60,6 +60,14 @@ public class Review extends TimeStamped{
     public void update(ReviewRequestDto requestDto){
         this.reviewContent = requestDto.getReviewContent();
         this.modifiedAt = LocalDateTime.now();
+    }
+
+    public void likeReview() {
+        this.reviewLikeCount++;
+    }
+
+    public void unlikeReview() {
+        this.reviewLikeCount--;
     }
 
 }
