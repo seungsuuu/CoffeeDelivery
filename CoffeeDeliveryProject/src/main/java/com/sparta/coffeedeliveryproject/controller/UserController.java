@@ -1,11 +1,9 @@
 package com.sparta.coffeedeliveryproject.controller;
 
-import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
-import com.sparta.coffeedeliveryproject.dto.SignupRequestDto;
-import com.sparta.coffeedeliveryproject.dto.UserProfileEditRequestDto;
-import com.sparta.coffeedeliveryproject.dto.UserProfileEditResponseDto;
+import com.sparta.coffeedeliveryproject.dto.*;
 import com.sparta.coffeedeliveryproject.security.UserDetailsImpl;
 import com.sparta.coffeedeliveryproject.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +23,13 @@ public class UserController {
 
         MessageResponseDto responseDto = userService.signup(signupRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<MessageResponseDto> login(@RequestBody LogingRequestDto logingRequestDto, HttpServletResponse response) {
+
+        MessageResponseDto loginMessage = userService.login(logingRequestDto, response);
+        return  ResponseEntity.status(HttpStatus.OK).body(loginMessage);
     }
 
     @PutMapping("/profile")
