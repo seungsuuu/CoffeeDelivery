@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class CafeMenusResponseDto {
+public class CafeMenuListResponseDto {
 
     private Long cafeId;
 
@@ -18,15 +18,15 @@ public class CafeMenusResponseDto {
 
     private Long cafeLikeCount;
 
-    private List<MenuResponseDto> menus;
+    private List<MenuResponseDto> menuList;
 
-    public CafeMenusResponseDto(Cafe cafe, List<MenuResponseDto> menus) {
+    public CafeMenuListResponseDto(Cafe cafe, List<MenuResponseDto> menuList) {
         this.cafeId = cafe.getCafeId();
         this.cafeName = cafe.getCafeName();
         this.cafeInfo = cafe.getCafeInfo();
         this.cafeAddress = cafe.getCafeAddress();
         this.cafeLikeCount = cafe.getCafeLikeCount();
-        this.menus = menus;
+        this.menuList = menuList;
     }
 
 }

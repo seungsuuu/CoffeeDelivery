@@ -93,4 +93,8 @@ public class User {
         this.userStatus = userStatus;
     }
 
+    public void editRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
 }

@@ -37,6 +37,11 @@ public class UserController {
         return userService.editProfile(userProfileEditRequestDto, userDetails.getUser().getUserId());
     }
 
+    @PostMapping("/loggout")
+    public MessageResponseDto logout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return userService.logout(userDetails.getUser().getUserId());
+    }
+
     @ExceptionHandler
     private ResponseEntity<String> handleException(IllegalArgumentException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
