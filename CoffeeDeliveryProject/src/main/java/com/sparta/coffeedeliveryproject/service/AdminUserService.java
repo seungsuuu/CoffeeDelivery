@@ -63,8 +63,8 @@ public class AdminUserService {
             }
 
             // 이전 비밀번호에 새로운 비밀번호가 있으면
-            for(String s : user.getPastPasswords()) {
-                if(passwordEncoder.matches(userEditRequestDto.getNewPassword(), s)) {
+            for (String s : user.getPastPasswords()) {
+                if (passwordEncoder.matches(userEditRequestDto.getNewPassword(), s)) {
                     throw new RecentlyUsedPasswordException("최근 설정한 4개의 비밀번호로는 비밀번호를 변경하실 수 없습니다.");
                 }
             }
@@ -129,8 +129,8 @@ public class AdminUserService {
 
         checkRole(adminUser);
 
-        if(user.getUserStatus() == UserStatusEnum.BLOCK) {
-            throw  new IllegalArgumentException("이미 차단된 회원입니다.");
+        if (user.getUserStatus() == UserStatusEnum.BLOCK) {
+            throw new IllegalArgumentException("이미 차단된 회원입니다.");
         }
 
         user.setUserStatus(UserStatusEnum.BLOCK);
