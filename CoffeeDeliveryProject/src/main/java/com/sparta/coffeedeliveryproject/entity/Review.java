@@ -62,4 +62,12 @@ public class Review extends TimeStamped{
         this.modifiedAt = LocalDateTime.now();
     }
 
+    public void likeReview() {
+        this.reviewLikeCount++;
+    }
+
+    public void unlikeReview() {
+        this.reviewLikeCount--;
+    }
+
 }
