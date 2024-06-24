@@ -4,6 +4,7 @@ import com.sparta.coffeedeliveryproject.dto.MenuRequestDto;
 import com.sparta.coffeedeliveryproject.dto.MenuResponseDto;
 import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.service.AdminMenuService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class AdminMenuController {
 
     @PostMapping("/{cafeId}/menus")
     public ResponseEntity<MenuResponseDto> createMenu(@PathVariable(value = "cafeId") Long cafeId,
-                                                      @RequestBody MenuRequestDto requestDto) {
+                                                      @Valid @RequestBody MenuRequestDto requestDto) {
 
         MenuResponseDto responseDto = adminMenuService.createMenu(cafeId, requestDto);
 
