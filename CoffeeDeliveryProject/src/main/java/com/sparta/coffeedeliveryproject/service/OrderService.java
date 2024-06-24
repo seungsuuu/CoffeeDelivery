@@ -49,8 +49,12 @@ public class OrderService {
             );
             orderResponseDtos.add(orderResponseDto);
         }
+        if (!orders.isEmpty()) {
+            return orderResponseDtos;
+        } else {
+            throw new IllegalArgumentException("주문 목록이 비어있습니다.");
+        }
 
-        return orderResponseDtos;
     }
 
     //id로 메뉴 찾기
