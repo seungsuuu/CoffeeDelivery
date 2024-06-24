@@ -3,6 +3,7 @@ package com.sparta.coffeedeliveryproject.controller;
 import com.sparta.coffeedeliveryproject.dto.*;
 import com.sparta.coffeedeliveryproject.security.UserDetailsImpl;
 import com.sparta.coffeedeliveryproject.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +43,12 @@ public class UserController {
         return userService.logout(userDetails.getUser().getUserId());
     }
 
-    @ExceptionHandler
-    private ResponseEntity<String> handleException(IllegalArgumentException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    @PostMapping("/refreshToken")
+    public ResponseEntity<MessageResponseDto> reissueToken(HttpServletRequest request, HttpServletResponse response) {
+
+        MessageResponseDto responseDto = userService.reissueToken(request, response);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
 }

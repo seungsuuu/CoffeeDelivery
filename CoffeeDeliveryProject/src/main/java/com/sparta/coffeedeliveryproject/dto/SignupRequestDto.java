@@ -24,7 +24,7 @@ public class SignupRequestDto {
     @NotBlank
     private String nickName;
 
-    private String role;
+    private String role = "";
 
     private String adminToken = "";
 
