@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -146,7 +147,11 @@ public class AdminUserService {
     }
 
     private void checkRole(User user) {
-        if(!user.getUserRoles().contains(userRoleRepository.findByRole("ADMIN"))) {
+        UserRole adminRole = userRoleRepository.findByRole("ADMIN")
+                .orElseThrow(() -> new IllegalArgumentException("ADMIN 이라는 권한을 찾지 못하였습니다."));
+
+        Set<UserRole> userRoles = user.getUserRoles();
+        if (!userRoles.contains(adminRole)) {
             throw new IllegalArgumentException("관리자만 사용할 수 있는 기능입니다.");
         }
     }
