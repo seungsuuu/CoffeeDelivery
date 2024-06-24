@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -26,19 +27,26 @@ public class AdminUserService {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
 
-    public List<UserResponseDto> getAllUsers() {
+    public List<UserResponseDto> getAllUsers(Long adminUserId) {
+        User user = findUserById(adminUserId);
+
+        checkRole(user);
+
         List<User> users = userRepository.findAll();
 
         // 모든 유저를 UserResponseDto로 매핑하여 list로 들어 반환
         return users.stream()
-                .map(user -> new UserResponseDto(user))
+                .map(u -> new UserResponseDto(u))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public UserResponseDto editUser(Long userId, UserEditRequestDto userEditRequestDto) {
+    public UserResponseDto editUser(Long userId, UserEditRequestDto userEditRequestDto, Long adminUserId) {
 
         User user = findUserById(userId);
+        User adminUser = findUserById(adminUserId);
+
+        checkRole(adminUser);
 
         if (userEditRequestDto.getNewUserName() != null) {
             user.editUserName(user.getUserName());
@@ -84,8 +92,11 @@ public class AdminUserService {
     }
 
     @Transactional
-    public MessageResponseDto deleteUser(Long userId) {
+    public MessageResponseDto deleteUser(Long userId, Long adminUserId) {
         User user = findUserById(userId);
+        User adminUser = findUserById(adminUserId);
+
+        checkRole(adminUser);
 
         userRepository.delete(user);
 
@@ -93,8 +104,11 @@ public class AdminUserService {
     }
 
     @Transactional
-    public UserResponseDto changeUserRoleToAdmin(Long userId) {
+    public UserResponseDto changeUserRoleToAdmin(Long userId, Long adminUserId) {
         User user = findUserById(userId);
+        User adminUser = findUserById(adminUserId);
+
+        checkRole(adminUser);
 
         UserRole adminRole = userRoleRepository.findByRole("ADMIN")
                 .orElseThrow(() -> new IllegalArgumentException("ADMIN 이라는 권한을 찾지 못하였습니다."));
@@ -110,8 +124,11 @@ public class AdminUserService {
     }
 
     @Transactional
-    public UserResponseDto userBlock(Long userId) {
+    public UserResponseDto userBlock(Long userId, Long adminUserId) {
         User user = findUserById(userId);
+        User adminUser = findUserById(adminUserId);
+
+        checkRole(adminUser);
 
         if(user.getUserStatus() == UserStatusEnum.BLOCK) {
             throw  new IllegalArgumentException("이미 차단된 회원입니다.");
@@ -128,4 +145,15 @@ public class AdminUserService {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("현재 userId로 유저를 찾을 수 없습니다."));
     }
+
+    private void checkRole(User user) {
+        UserRole adminRole = userRoleRepository.findByRole("ADMIN")
+                .orElseThrow(() -> new IllegalArgumentException("ADMIN 이라는 권한을 찾지 못하였습니다."));
+
+        Set<UserRole> userRoles = user.getUserRoles();
+        if (!userRoles.contains(adminRole)) {
+            throw new IllegalArgumentException("관리자만 사용할 수 있는 기능입니다.");
+        }
+    }
+
 }
