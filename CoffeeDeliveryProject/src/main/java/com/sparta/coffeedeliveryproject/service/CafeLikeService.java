@@ -22,7 +22,7 @@ public class CafeLikeService {
     public MessageResponseDto likeCafe(Long cafeId, User user){
         Cafe cafe = findCafeById(cafeId);
 
-        if (cafeLikeRepository.findByCafeIdAndUserId(cafeId, user.getUserId()).isPresent()) {
+        if (cafeLikeRepository.findByCafeCafeIdAndUserUserId(cafeId, user.getUserId()).isPresent()) {
             throw new IllegalArgumentException("중복 좋아요는 할 수 없습니다.");
         } else {
             cafe.likeCafe();
@@ -36,7 +36,7 @@ public class CafeLikeService {
     public MessageResponseDto unlikeCafe(Long cafeId, User user){
         Cafe cafe = findCafeById(cafeId);
 
-        CafeLike cafeLike = cafeLikeRepository.findByCafeIdAndUserId(cafeId, user.getUserId()).orElseThrow(() ->
+        CafeLike cafeLike = cafeLikeRepository.findByCafeCafeIdAndUserUserId(cafeId, user.getUserId()).orElseThrow(() ->
                 new IllegalArgumentException("해당 카페에 좋아요를 하지 않았습니다."));
         cafe.unlikeCafe();
         cafeLikeRepository.delete(cafeLike);

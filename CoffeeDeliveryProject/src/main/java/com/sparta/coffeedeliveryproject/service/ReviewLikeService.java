@@ -27,7 +27,7 @@ public class ReviewLikeService {
             throw new IllegalArgumentException("자신의 리뷰에 좋아요를 할 수 없습니다.");
         }
 
-        if (reviewLikeRepository.findByReviewIdAndUserId(reviewId, user.getUserId()).isPresent()) {
+        if (reviewLikeRepository.findByReviewReviewIdAndUserUserId(reviewId, user.getUserId()).isPresent()) {
             throw new IllegalArgumentException("중복 좋아요는 할 수 없습니다.");
         } else {
             review.likeReview();
@@ -41,7 +41,7 @@ public class ReviewLikeService {
     public MessageResponseDto unlikeReview(Long reviewId, User user) {
         Review review = findReviewById(reviewId);
 
-        ReviewLike reviewLike = reviewLikeRepository.findByReviewIdAndUserId(reviewId, user.getUserId()).orElseThrow(() ->
+        ReviewLike reviewLike = reviewLikeRepository.findByReviewReviewIdAndUserUserId(reviewId, user.getUserId()).orElseThrow(() ->
                 new IllegalArgumentException("해당 댓글에 좋아요를 하지 않았습니다."));
         review.unlikeReview();
         reviewLikeRepository.delete(reviewLike);

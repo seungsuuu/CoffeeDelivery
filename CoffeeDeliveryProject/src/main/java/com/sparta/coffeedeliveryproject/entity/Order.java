@@ -23,9 +23,9 @@ public class Order extends TimeStamped{
     @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "cafe_id")
@@ -36,10 +36,10 @@ public class Order extends TimeStamped{
     @Column(name = "menu_name")
     private List<String> menuNames;
 
-    public Order(int orderPrice, OrderStatus orderStatus/*, User user*/, Cafe cafe, List<String> menuNames) {
+    public Order(int orderPrice, OrderStatus orderStatus, User user, Cafe cafe, List<String> menuNames) {
         this.orderPrice = orderPrice;
         this.orderStatus = orderStatus;
-//        this.user = user;
+        this.user = user;
         this.cafe = cafe;
         this.menuNames = menuNames;
     }
