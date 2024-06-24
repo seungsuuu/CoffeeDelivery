@@ -75,14 +75,9 @@ public class JwtUtil {
 
     }
 
-    public void addAccessJwtToHeader(String token, HttpServletResponse res) {
-        try {
-            token = URLEncoder.encode(token, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
+    public void addJwtToHeader(String token, HttpServletResponse res) {
 
-            res.setHeader(AUTHORIZATION_HEADER, token);
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-        }
+        res.addHeader(AUTHORIZATION_HEADER, token);
     }
 
     // AccessToken을 header에서 가져와서 반환하는 메서드
