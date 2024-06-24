@@ -27,9 +27,8 @@ public class Review extends TimeStamped{
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // cafe_id에서 _인식 못해서 cafeId로 변경
     @ManyToOne
-    @JoinColumn(name = "cafeId", nullable = false)
+    @JoinColumn(name = "cafe_id", nullable = false)
     private Cafe cafe;
 
     @ManyToOne
@@ -49,11 +48,11 @@ public class Review extends TimeStamped{
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
-    public Review(ReviewRequestDto requestDto, Cafe cafe, Order order/*, User user*/){
+    public Review(ReviewRequestDto requestDto, Cafe cafe, Order order, User user){
         this.reviewContent = requestDto.getReviewContent();
         this.cafe = cafe;
         this.order = order;
-//        this.user = user;
+        this.user = user;
         this.reviewLikeCount = 0;
     }
 

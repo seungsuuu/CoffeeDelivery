@@ -5,6 +5,7 @@ import com.sparta.coffeedeliveryproject.dto.ReviewResponseDto;
 import com.sparta.coffeedeliveryproject.entity.Cafe;
 import com.sparta.coffeedeliveryproject.entity.Order;
 import com.sparta.coffeedeliveryproject.entity.Review;
+import com.sparta.coffeedeliveryproject.entity.User;
 import com.sparta.coffeedeliveryproject.repository.CafeRepository;
 import com.sparta.coffeedeliveryproject.repository.OrderRepository;
 import com.sparta.coffeedeliveryproject.repository.ReviewRepository;
@@ -24,11 +25,11 @@ public class ReviewService {
     private final CafeRepository cafeRepository;
     private final OrderRepository orderRepository;
 
-    public ReviewResponseDto createReview(Long cafeId, Long orderId,ReviewRequestDto requestDto/*,User user*/){
+    public ReviewResponseDto createReview(Long cafeId, Long orderId, ReviewRequestDto requestDto, User user){
 
         Cafe cafe = findCafeById(cafeId);
         Order order = findOrderById(orderId);
-        Review review = new Review(requestDto, cafe, order);
+        Review review = new Review(requestDto, cafe, order, user);
         Review saveReview = reviewRepository.save(review);
         return new ReviewResponseDto(review);
 
@@ -36,8 +37,6 @@ public class ReviewService {
 
     public List<ReviewResponseDto> getReviewCafe(Long cafeId) {
 
-        // Repository에서 'findAllByCafeId' 오류 발생해서 'findAllByCafeCafeId'로 작성
-        // 'findAllByCafeCafeId' 오류 발생하면 'findAllByCafeId' 로 변경해서 사용
         List<Review> reviews = reviewRepository.findAllByCafeCafeId(cafeId);
 
         return reviews.stream().map(ReviewResponseDto::new).toList();
@@ -45,32 +44,26 @@ public class ReviewService {
     }
 
     @Transactional
-    public ReviewResponseDto updateReview(Long reviewId, ReviewRequestDto requestDto/*, User user*/) {
+    public ReviewResponseDto updateReview(Long reviewId, ReviewRequestDto requestDto, User user) {
 
         Review review = findReviewById(reviewId);
-        review.update(requestDto);
 
-        return new ReviewResponseDto(review);
-        /*
-        if(review.getUser().getId() == user.getId()){
+        if(review.getUser().getUserId() == user.getUserId()){
             review.update(requestDto);
             return new ReviewResponseDto(review);
          }else throw new IllegalArgumentException("본인이 작성한 리뷰만 수정 가능합니다.");
-        */
+
     }
 
-    public ResponseEntity<String> deleteReview(Long reviewId) {
+    public ResponseEntity<String> deleteReview(Long reviewId, User user) {
 
         Review review = findReviewById(reviewId);
-        reviewRepository.delete(review);
 
-        return ResponseEntity.ok("리뷰가 삭제되었습니다.");
-        /*
-        if(review.getUser().getId() == user.getId()){
+        if(review.getUser().getUserId() == user.getUserId()){
             reviewRepository.delete(review);
             return ResponseEntity.ok("리뷰가 삭제되었습니다.");
          }else throw new IllegalArgumentException("본인이 작성한 리뷰만 삭제 가능합니다.");
-         */
+
     }
 
     private Review findReviewById(Long reviewId) {
