@@ -30,40 +30,5 @@ public class DataInitializer implements CommandLineRunner {
             userRoleRepository.save(userRole);
             userRoleRepository.save(adminRole);
         }
-
-        if (userRepository.count() == 0) {
-
-            // 유저 초기 데이터
-            UserRole userRole = userRoleRepository.findByRole("USER")
-                    .orElseThrow(() -> new RuntimeException("Role not found: USER"));
-
-            UserRole adminRole = userRoleRepository.findByRole("ADMIN")
-                    .orElseThrow(() -> new RuntimeException("Role not found: ADMIN"));
-
-            Set<UserRole> user1Roles = new HashSet<>();
-            user1Roles.add(userRole);
-
-            Set<UserRole> user2Roles = new HashSet<>();
-            user2Roles.add(userRole);
-
-            Set<UserRole> user3Roles = new HashSet<>();
-            user3Roles.add(userRole); // 관리자는 USER 역할과 ADMIN 역할을 모두 가짐
-            user3Roles.add(adminRole);
-
-            User user1 = new User("user1", "password123", "NickName1");
-            User user2 = new User("user2", "password12223", "NickName2");
-            User user3 = new User("user3", "password123", "NickName3");
-
-            user1.setUserRoles(user1Roles);
-            user2.setUserRoles(user2Roles);
-            user3.setUserRoles(user3Roles);
-
-            // 유저 role 추가되는 것이 가능한지 테스트
-            user2.addUserRoles(adminRole);
-
-            userRepository.save(user1);
-            userRepository.save(user2);
-            userRepository.save(user3);
-        }
     }
 }
