@@ -5,7 +5,12 @@ import com.sparta.coffeedeliveryproject.dto.CafeRequestDto;
 import com.sparta.coffeedeliveryproject.dto.CafeResponseDto;
 import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.entity.Cafe;
+import com.sparta.coffeedeliveryproject.entity.User;
+import com.sparta.coffeedeliveryproject.entity.UserRole;
 import com.sparta.coffeedeliveryproject.repository.CafeRepository;
+import com.sparta.coffeedeliveryproject.repository.UserRepository;
+import com.sparta.coffeedeliveryproject.security.UserDetailsImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,13 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AdminCafeService {
 
     private final CafeRepository cafeRepository;
-
-    public AdminCafeService(CafeRepository cafeRepository) {
-        this.cafeRepository = cafeRepository;
-    }
+    private final UserRepository userRepository;
 
     public CafeResponseDto createCafe(CafeRequestDto requestDto) {
 
@@ -95,6 +98,19 @@ public class AdminCafeService {
     // String 요청 데이터가 비어 있느지 확인하는 메서드
     private boolean isNullAndEmpty(String string) {
         return string == null || string.isEmpty();
+    }
+
+    @Transactional
+    public boolean isAdmin(UserDetailsImpl userDetails) {
+        User user = userRepository.findById(userDetails.getUser().getUserId()).orElseThrow(
+                () -> new IllegalArgumentException("해당 사용자가 없습니다."));
+
+        for (UserRole role : user.getUserRoles()) {
+            if ("ADMIN".equals(role.getRole())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

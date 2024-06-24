@@ -3,6 +3,7 @@ package com.sparta.coffeedeliveryproject.controller;
 import com.sparta.coffeedeliveryproject.dto.CafeMenuListResponseDto;
 import com.sparta.coffeedeliveryproject.dto.CafeResponseDto;
 import com.sparta.coffeedeliveryproject.service.CafeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,13 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cafes")
+@RequiredArgsConstructor
 public class CafeController {
 
     private final CafeService cafeService;
-
-    public CafeController(CafeService cafeService) {
-        this.cafeService = cafeService;
-    }
 
     @GetMapping
     public ResponseEntity<List<CafeResponseDto>> getAllCafe(@RequestParam(value = "page", defaultValue = "1") int page,
