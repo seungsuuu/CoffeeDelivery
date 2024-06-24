@@ -5,6 +5,7 @@ import com.sparta.coffeedeliveryproject.dto.CafeResponseDto;
 import com.sparta.coffeedeliveryproject.dto.MenuResponseDto;
 import com.sparta.coffeedeliveryproject.entity.Cafe;
 import com.sparta.coffeedeliveryproject.repository.CafeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,13 +15,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CafeService {
 
     private final CafeRepository cafeRepository;
-
-    public CafeService(CafeRepository cafeRepository) {
-        this.cafeRepository = cafeRepository;
-    }
 
     public List<CafeResponseDto> getAllCafe(int page, String sortBy) {
 
