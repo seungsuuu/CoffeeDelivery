@@ -51,24 +51,4 @@ public class AdminUserController {
         return adminUserService.userBlock(userId);
     }
 
-    @ExceptionHandler // 에러 핸들링
-    private ResponseEntity<String> handleException(RecentlyUsedPasswordException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler // 에러 핸들링
-    private ResponseEntity<String> handleException(UserNotFoundException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler // 에러 핸들링
-    private ResponseEntity<String> handleException(PasswordMismatchException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<String> handleException(IllegalArgumentException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
 }
