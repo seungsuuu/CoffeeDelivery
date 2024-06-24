@@ -57,8 +57,10 @@ public class UserService {
         // 액세스 토큰, 리프레쉬 토큰 생성
         String accessToken = jwtUtil.createAccessToken(user.getUserName(), UserStatusEnum.ACTIVE);
         String refreshToken = jwtUtil.createRefreshToken(user);
-        // header에 액세스토큰 저장
-        jwtUtil.addAccessJwtToHeader(accessToken, response);
+        // header에 토큰 저장
+        jwtUtil.addJwtToHeader(accessToken, response);
+        jwtUtil.addJwtToHeader(refreshToken, response);
+
         // DB에 리프레쉬토큰 저장
         user.setRefreshToken(refreshToken);
         userRepository.save(user);
