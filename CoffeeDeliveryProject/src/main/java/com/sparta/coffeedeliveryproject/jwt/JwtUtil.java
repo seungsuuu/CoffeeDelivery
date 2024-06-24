@@ -1,16 +1,21 @@
 package com.sparta.coffeedeliveryproject.jwt;
 
+import com.sparta.coffeedeliveryproject.entity.User;
 import com.sparta.coffeedeliveryproject.entity.UserRole;
+import com.sparta.coffeedeliveryproject.enums.UserStatusEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -45,20 +50,20 @@ public class JwtUtil {
     }
 
     // 토큰 생성
-    public String createAccessToken(String userName, UserRole role) {
+    public String createAccessToken(String userName, UserStatusEnum userStatus) {
         Date date = new Date();
 
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(userName) // 사용자 식별자값(ID)
-                        .claim(AUTHORIZATION_KEY, role) // 사용자 권한
+                        .claim(AUTHORIZATION_KEY, userStatus) // 사용자 권한
                         .setExpiration(new Date(date.getTime() + ACCESS_TOKEN_TIME)) // 만료 시간
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
                         .compact();
     }
 
-    public String createRefreshToken() {
+    public String createRefreshToken(User user) {
         Date date = new Date();
 
         return BEARER_PREFIX +
@@ -68,6 +73,11 @@ public class JwtUtil {
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
                         .compact();
 
+    }
+
+    public void addJwtToHeader(String token, HttpServletResponse res) {
+
+        res.addHeader(AUTHORIZATION_HEADER, token);
     }
 
     // AccessToken을 header에서 가져와서 반환하는 메서드

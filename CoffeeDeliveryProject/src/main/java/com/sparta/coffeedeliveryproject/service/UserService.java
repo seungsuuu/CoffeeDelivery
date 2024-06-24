@@ -1,13 +1,13 @@
 package com.sparta.coffeedeliveryproject.service;
 
-import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
-import com.sparta.coffeedeliveryproject.dto.SignupRequestDto;
-import com.sparta.coffeedeliveryproject.dto.UserProfileEditRequestDto;
-import com.sparta.coffeedeliveryproject.dto.UserProfileEditResponseDto;
+import com.sparta.coffeedeliveryproject.dto.*;
 import com.sparta.coffeedeliveryproject.entity.User;
+import com.sparta.coffeedeliveryproject.enums.UserStatusEnum;
 import com.sparta.coffeedeliveryproject.exceptions.PasswordMismatchException;
 import com.sparta.coffeedeliveryproject.exceptions.RecentlyUsedPasswordException;
+import com.sparta.coffeedeliveryproject.jwt.JwtUtil;
 import com.sparta.coffeedeliveryproject.repository.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +21,7 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
     public MessageResponseDto signup(SignupRequestDto signupRequestDto) {
 
@@ -40,6 +41,32 @@ public class UserService {
         userRepository.save(user);
 
         return new MessageResponseDto("회원가입이 완료되었습니다.");
+    }
+
+    public MessageResponseDto login(LogingRequestDto logingRequestDto, HttpServletResponse response) {
+        // 사용자의 아이디, 비밀번호를 받아온다.
+        String userName = logingRequestDto.getUserName();
+        String password = logingRequestDto.getPassword();
+        // 회원가입이 된 사용자인지 확인.
+        User user = userRepository.findByUserName(userName).orElseThrow(
+                () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
+        );
+        // 회원가입 시 입력한 비밀번호와 로그인시 입력한 비밀번호가 일치하지 않을 경우
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+        // 액세스 토큰, 리프레쉬 토큰 생성
+        String accessToken = jwtUtil.createAccessToken(user.getUserName(), UserStatusEnum.ACTIVE);
+        String refreshToken = jwtUtil.createRefreshToken(user);
+        // header에 토큰 저장
+        jwtUtil.addJwtToHeader(accessToken, response);
+        jwtUtil.addJwtToHeader(refreshToken, response);
+
+        // DB에 리프레쉬토큰 저장
+        user.setRefreshToken(refreshToken);
+        userRepository.save(user);
+
+        return new MessageResponseDto("로그인이 완료되었습니다.");
     }
 
     public UserProfileEditResponseDto editProfile(UserProfileEditRequestDto userProfileEditRequestDto, Long userId) {
