@@ -90,4 +90,12 @@ public class User {
         this.userRoles = userRoles;
     }
 
+    public void setUserStatus(UserStatusEnum userStatus) {
+        this.userStatus = userStatus;
+    }
+
+    public void editRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
 }
