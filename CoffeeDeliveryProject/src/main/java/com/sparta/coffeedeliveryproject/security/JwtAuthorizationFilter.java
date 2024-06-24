@@ -2,11 +2,13 @@ package com.sparta.coffeedeliveryproject.security;
 
 import com.sparta.coffeedeliveryproject.jwt.JwtUtil;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -31,19 +33,24 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
 
-        String tokenValue = jwtUtil.getAccessTokenFromHeader(req);
+        String tokenValue = jwtUtil.getTokenFromHeader(JwtUtil.AUTHORIZATION_HEADER, req);
 
         if (StringUtils.hasText(tokenValue)) {
-
-            if (!jwtUtil.validateToken(tokenValue)) {
-                log.error("Token Error");
-                return;
-            }
-
-            Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
-
             try {
+                if (!jwtUtil.validateToken(tokenValue)) {
+                    log.error("Token Error");
+                }
+
+                Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
                 setAuthentication(info.getSubject());
+
+            } catch (ExpiredJwtException e) {
+                res.setStatus(HttpStatus.UNAUTHORIZED.value());
+                res.setContentType("application/json");
+                res.setCharacterEncoding("UTF-8");
+                res.getWriter().write("{\"message\":\"리프레시 토큰으로 재발급 받으세요\"}");
+
+                return;
             } catch (Exception e) {
                 log.error(e.getMessage());
                 return;
