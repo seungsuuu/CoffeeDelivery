@@ -1,5 +1,5 @@
 # ☕CoffeeDeliveryProject
-- 프로젝트명 : 우리동네 달리는 카페 
+- 프로젝트명 : 🛵우리동네 달리는 카페 
 - 내용 : 우리동네 달리는 카페는 커피 배달 서비스로 "사용자"는 카페를 조회하여 해당 카페에서 판매하고 있는 음료 등을 주문 할 수 있고
   카페 주인은 "서버 관리자"를 통해 카페에 메뉴, 주문상태 등을 관리 할 수 있는 프로젝트 입니다.
   
@@ -58,7 +58,7 @@
 </details>
 
 # 🎬프로젝트 소개
-프로젝트 이름은 CoffeeDeliveryProject로 커피 전문 배달 앱을 만들었습니다.<br><br>
+☕프로젝트 이름은 우리동네 달리는 카페로 커피 전문 배달 앱을 만들었습니다.🍹<br><br>
 <details>
 <summary>
   1️⃣ 회원 관리
@@ -105,7 +105,7 @@
 # 📢Github Rules & Code Convention
 <details>
 <summary>
-  Github Rules
+  ⚖️Github Rules
 </summary>
   <br>
    • 브랜치 이름 규칙<br><br>
@@ -127,7 +127,7 @@
 </details>
 <details>
 <summary>
-  Code Convention
+  🔑Code Convention
 </summary>
   <br>
    • 카멜케이스 함수명, 변수명에 적용 ‘userLogin’<br>
