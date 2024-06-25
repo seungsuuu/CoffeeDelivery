@@ -142,6 +142,27 @@
 </details>
 
 # 📑API 명세서
+![hyunmin_2024-06-25_11-04-54](https://github.com/LeeChangHyeong/CoffeeDeliveryProject/assets/166034905/aeda900e-2988-4cde-a231-1ce92826e61a)
+
+![changhyung_2024-06-25_11-05-37](https://github.com/LeeChangHyeong/CoffeeDeliveryProject/assets/166034905/baf12e43-f5a3-4166-93a5-f5c0b44bced9)
+
+![seungsu_2024-06-25_11-06-13](https://github.com/LeeChangHyeong/CoffeeDeliveryProject/assets/166034905/06cb299b-2941-4f35-8ce0-3c6bca7fc3f1)
+
+![kanghyun_2024-06-25_11-06-50](https://github.com/LeeChangHyeong/CoffeeDeliveryProject/assets/166034905/f24f8e4a-0b61-4155-a50f-813a3ae6cb12)
+
+![jiyeon_2024-06-25_11-07-23](https://github.com/LeeChangHyeong/CoffeeDeliveryProject/assets/166034905/ea1fd651-b868-4c96-b8ba-0f01c31799ea)
+
+
+![kanghyun-2_2024-06-25_11-08-06](https://github.com/LeeChangHyeong/CoffeeDeliveryProject/assets/166034905/a442b908-cb1a-47e7-a0e2-cba15a133c4a)
+
+![changhyung-2_2024-06-25_11-08-34](https://github.com/LeeChangHyeong/CoffeeDeliveryProject/assets/166034905/42025462-a776-4480-8c01-ff397f093114)
+
+![seungsu-2_2024-06-25_11-08-57](https://github.com/LeeChangHyeong/CoffeeDeliveryProject/assets/166034905/4d0edb99-0dda-471e-b26e-448320d1e121)
+
+![suengsu-3_2024-06-25_11-09-29](https://github.com/LeeChangHyeong/CoffeeDeliveryProject/assets/166034905/d0605b55-0e37-494d-a67c-fdbb93dee860)
+
+![kanghyun-3_2024-06-25_11-10-01](https://github.com/LeeChangHyeong/CoffeeDeliveryProject/assets/166034905/de6fe7e1-b078-4504-a209-b9b95251bfff)
+
 # 📈ERD 다이어그램
 ![Snipaste_2024-06-25_10-57-19](https://github.com/LeeChangHyeong/CoffeeDeliveryProject/assets/166034905/e1aba161-31a7-420c-baaa-fea9a50c630f)
 # 🔊트러블 슈팅
