@@ -18,31 +18,41 @@
 <summary>
   ${\textsf{\color{green}🤡이창형(팀장)}}$
 </summary>
-   토글 안 내용
+  <br>
+   - Admin 회원 CRUD<br>
+   - 로그아웃 API 
 </details>
 <details>
 <summary>
   ⚡김승수
 </summary>
-   토글 안 내용
+  <br>
+   - 카페 페이지 단건, 전체 조회<br>
+   - 카페 페이지 CRUD<br>
+   - 메뉴 CD<br>
 </details>
 <details>
 <summary>
   👍🏻김현민
 </summary>
-   토글 안 내용
+  <br>
+   - 회원가입, 로그인API<br>
+   - 엑세스 토큰 재발급 API
 </details>
 <details>
 <summary>
   💦박강현
 </summary>
-   토글 안 내용
+  <br>
+   - 주문 CRUD<br>
+   - 좋아요 CD
 </details>
 <details>
 <summary>
   ✔️최지연
 </summary>
-   토글 안 내용
+  <br>
+   - 리뷰 CRUD
 </details>
 
 # 🎬프로젝트 소개
