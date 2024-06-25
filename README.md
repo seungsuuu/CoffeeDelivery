@@ -61,7 +61,7 @@
 프로젝트 이름은 CoffeeDeliveryProject로 커피 전문 배달 앱을 만들었습니다.<br><br>
 <details>
 <summary>
-  1. 회원 관리
+  1️⃣ 회원 관리
 </summary>
   <br>
    • 회원 가입 및 로그인/로그아웃<br>
@@ -71,7 +71,7 @@
 </details>
 <details>
 <summary>
-  2. 관리자(admin) 유저 기능
+  2️⃣ 관리자(admin) 유저 기능
 </summary>
   <br>
    •회원 관리<br>
@@ -88,7 +88,7 @@
 </details>
 <details>
 <summary>
-  3. 일반 유저 기능
+  3️⃣ 일반 유저 기능
 </summary>
   <br>
    •카페 페이지 조회<br>
@@ -102,7 +102,45 @@
 </details>
 
 
-# 📢깃 규칙
+# 📢Github Rules & Code Convention
+<details>
+<summary>
+  Github Rules
+</summary>
+  <br>
+   • 브랜치 이름 규칙<br><br>
+    - dev 브랜치, 각자 개발 기능 구현 feat/(기능이름) 브랜치<br>
+    - 두가지 단어라면 ‘ - ’ (하이픈) 사용해서 구분<br>
+    - feat/signup, feat/order-create<br><br>
+• 커밋 메시지 규칙<br><br>
+    - ~~[feat] #1(이슈 번호) 로그인 함수 구현~~<br>
+    - **✨ update - #1 로그인 함수 구현 (이모지는 밑에 상황별 이모지)**<br>
+    - ✨ update, 🩹 fix - #1 로그인 함수 구현, 회원가입 함수명 수정<br><br>
+• 이슈 작성 규칙<br><br>
+    - 이슈 사용<br>
+    - title : 🌟 [feat] 이슈명 / description : 템플릿 따라서 작성<br>
+    - title : 👾 [bug]  이슈명 / description : 템플릿 따라서 작성<br><br>
+• PR 작성 규칙<br><br>
+    - pr 규칙 사용 [현재날짜] 브랜치명 >> 간단한 설명<br>
+    - [2024/06/19] feat/signup(브랜치명) >> 로그인 기능 구현(구현한 것 간단하게)<br><br>
+• 코드리뷰 적용 (리뷰 1개이상 머지 가능, 겹치는 부분은 해당 담당자에게 리뷰 받기 필수)
+</details>
+<details>
+<summary>
+  Code Convention
+</summary>
+  <br>
+   • 카멜케이스 함수명, 변수명에 적용 ‘userLogin’<br>
+• 폴더는 소문자<br>
+• 파일은 파스칼 케이스 적용  ‘UserController’<br>
+• 함수 만들때 동사 → 명사 순서 ’updateUser’<br>
+• 규격 잘 맞추기<br>
+• 주석 잘 달아주기!! (한 줄 이내)<br>
+• 클래스 이름 바로 밑의 줄 한줄 띄우기<br>
+• return 있을 때는 한줄 띄우지 말고 바로 `}`  작성<br>
+• return 없을 때는 맨 밑줄 한줄 띄우고 `}`  작성<br>
+</details>
+
 # 📑API 명세서
 # 📈ERD 다이어그램
 # 🔊트러블 슈팅
