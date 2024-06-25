@@ -130,15 +130,15 @@
   🔑Code Convention
 </summary>
   <br>
-   • 카멜케이스 함수명, 변수명에 적용 ‘userLogin’<br>
-• 폴더는 소문자<br>
-• 파일은 파스칼 케이스 적용  ‘UserController’<br>
-• 함수 만들때 동사 → 명사 순서 ’updateUser’<br>
-• 규격 잘 맞추기<br>
-• 주석 잘 달아주기!! (한 줄 이내)<br>
-• 클래스 이름 바로 밑의 줄 한줄 띄우기<br>
-• return 있을 때는 한줄 띄우지 말고 바로 `}`  작성<br>
-• return 없을 때는 맨 밑줄 한줄 띄우고 `}`  작성<br>
+   • 카멜케이스 함수명, 변수명에 적용<br> ex) ‘userLogin’<br>
+   • 폴더는 소문자<br>
+   • 파일은 파스칼 케이스 적용<br>  ex) ‘UserController’<br>
+   • 함수 만들때 동사 → 명사 순서<br> ex) ’updateUser’<br>
+   • 규격 잘 맞추기<br>
+   • 주석 잘 달아주기!! (한 줄 이내)<br>
+   • 클래스 이름 바로 밑의 줄 한줄 띄우기<br>
+   • return 있을 때는 한줄 띄우지 말고 바로 `}`  작성<br>
+   • return 없을 때는 맨 밑줄 한줄 띄우고 `}`  작성<br>
 </details>
 
 # 📑API 명세서
@@ -165,5 +165,51 @@
 
 # 📈ERD 다이어그램
 ![Snipaste_2024-06-25_10-57-19](https://github.com/LeeChangHyeong/CoffeeDeliveryProject/assets/166034905/e1aba161-31a7-420c-baaa-fea9a50c630f)
+
 # 🔊트러블 슈팅
+### 🚨 과거 비밀번호 배열에서 비밀번호가 3개 이상으로 저장되는 버그
+<details>
+<summary>
+  😱 버그 발생 상황
+</summary>
+  <br>
+   - 패스워드 인코더 적용<br>
+   - 회원 비밀번호 3번 수정<br>
+   - 회원 비밀번호 4번째 수정시에도 과거 비밀번호가 DB에 저장<br><br>
+  🧨시스템에 패스워트 인코더를 적용하여 회원 비밀번호를 저장 및 검증하는 방식을 구현했다. 비밀번호는 최대 4개까지 저장되어야 하지만, 이전에 만들어진 비밀번호가 삭제되지 않고 계속 저장되는 버그가 발생
+</details>
+
+<details>
+<summary>
+  🤔예상되는 오류 이유
+</summary>
+   <br>
+  - 비밀번호를 삭제하는 로직에서 remove가 제대로 작동하지 않음<br>
+  - 배열의 크기가 제대로 측정되지 않음<br>
+  - 비밀번호를 저장하는 자료구조가 set이여서 발생<br>
+</details>
+<details>
+<summary>
+  ❓오류 발생 원인
+</summary>
+   <br>
+  • 🔎비밀번호 인코딩 문제<br>
+    - 같은 비밀번호라도 패스워듣 인코더가 서로 다른 인코딩 값으로 변환
+</details>
+<details>
+<summary>
+  🪄문제 해결
+</summary>
+   <br> 
+  • 비밀번호 비교 시 contains 메서드를 ${\textsf{\color{red}matches}}$ 메서드로 변경<br>
+  • 과거 비밀번호를 저장하는 자료구조를 set에서 ${\textsf{\color{red}ArrayList}}$로 변경하여 동일한 비밀번호가 정확하게 비교되고 저장되도록 수정
+</details>
+
 # 📓회고
+• 좋았던 점
+  - 팀 소통 원활
+  - 초반에 팀 회의를 통해 깃 규칙, 코드 컴벤션 정함
+  - 
+• 아쉬운 점
+  - 목표를 높게 못 잡음
+  - 예상치 못한 오류로 인해 헤매다 보니 초기에 잡았던 목표 이상으로 하지 못함
