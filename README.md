@@ -143,5 +143,6 @@
 
 # 📑API 명세서
 # 📈ERD 다이어그램
+![Snipaste_2024-06-25_10-57-19](https://github.com/LeeChangHyeong/CoffeeDeliveryProject/assets/166034905/e1aba161-31a7-420c-baaa-fea9a50c630f)
 # 🔊트러블 슈팅
 # 📓회고
