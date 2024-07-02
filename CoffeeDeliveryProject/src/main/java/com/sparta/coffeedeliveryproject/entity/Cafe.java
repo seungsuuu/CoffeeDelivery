@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "cafe")
-public class Cafe {
+public class Cafe extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +31,9 @@ public class Cafe {
 
     @OneToMany(mappedBy = "cafe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Menu> menuList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cafe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<CafeLike> cafeLikeList = new ArrayList<>();
 
     public Cafe(String cafeName, String cafeInfo, String cafeAddress) {
         this.cafeName = cafeName;
