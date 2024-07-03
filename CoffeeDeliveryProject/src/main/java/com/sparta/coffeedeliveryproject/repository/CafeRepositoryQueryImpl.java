@@ -35,7 +35,6 @@ public class CafeRepositoryQueryImpl implements CafeRepositoryQuery {
                 .where(cafeLike.user.userId.eq(userId));
 
         long count = countQuery(userId).fetch().get(0);
-        System.out.println(count);
 
         query.offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
