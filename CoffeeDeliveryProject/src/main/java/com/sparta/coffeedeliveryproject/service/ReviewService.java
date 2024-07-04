@@ -11,6 +11,10 @@ import com.sparta.coffeedeliveryproject.repository.CafeRepository;
 import com.sparta.coffeedeliveryproject.repository.OrderRepository;
 import com.sparta.coffeedeliveryproject.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,6 +56,21 @@ public class ReviewService {
 
         return reviews.stream().map(ReviewResponseDto::new).toList();
 
+    }
+
+    public List<ReviewResponseDto> getReviewsMyLike(int page, String sortBy, User user) {
+
+        int pageSize = 5;
+        Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
+        Pageable pageable = PageRequest.of(page, pageSize, sort);
+        Page<ReviewResponseDto> reviewPage = reviewRepository.findReviewByUserLikes(pageable, user.getUserId()).map(ReviewResponseDto::new);
+        List<ReviewResponseDto> responseDtoList = reviewPage.getContent();
+
+        if (responseDtoList.isEmpty()) {
+            throw new IllegalArgumentException("좋아요한 리뷰가 없거나, 입력된 " + (page + 1) + " 페이지에 글이 없습니다.");
+        }
+
+        return responseDtoList;
     }
 
     @Transactional
