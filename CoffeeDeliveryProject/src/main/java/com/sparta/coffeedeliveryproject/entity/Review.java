@@ -40,8 +40,8 @@ public class Review extends TimeStamped {
     @OneToMany(mappedBy = "review", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ReviewLike> reviewLikeList = new ArrayList<>();
 
-    public Review(ReviewRequestDto requestDto, Cafe cafe, Order order, User user) {
-        this.reviewContent = requestDto.getReviewContent();
+    public Review(String reviewContent, Cafe cafe, Order order, User user) {
+        this.reviewContent = reviewContent;
         this.cafe = cafe;
         this.order = order;
         this.user = user;

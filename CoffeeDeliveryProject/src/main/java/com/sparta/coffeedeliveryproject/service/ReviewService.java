@@ -44,7 +44,7 @@ public class ReviewService {
             throw new IllegalArgumentException("해당 주문에 리뷰가 이미 존재합니다.");
         }
 
-        Review review = new Review(requestDto, cafe, order, user);
+        Review review = new Review(requestDto.getReviewContent(), cafe, order, user);
         Review saveReview = reviewRepository.save(review);
         return new ReviewResponseDto(saveReview);
 
