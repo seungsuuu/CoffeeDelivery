@@ -30,7 +30,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
-    @Value("${ADMIN_TOKEN}")
+    @Value("${admin.token.key}")
     String adminToken;
 
     public MessageResponseDto signup(SignupRequestDto signupRequestDto) {
