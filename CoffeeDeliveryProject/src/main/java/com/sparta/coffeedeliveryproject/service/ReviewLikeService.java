@@ -41,7 +41,7 @@ public class ReviewLikeService {
         Review review = findReviewById(reviewId);
 
         ReviewLike reviewLike = reviewLikeRepository.findByReviewReviewIdAndUserUserId(reviewId, user.getUserId()).orElseThrow(() ->
-                new IllegalArgumentException("해당 댓글에 좋아요를 하지 않았습니다."));
+                new IllegalArgumentException("해당 리뷰에 좋아요를 하지 않았습니다."));
         review.unlikeReview();
         reviewLikeRepository.delete(reviewLike);
         return new MessageResponseDto("좋아요 취소");

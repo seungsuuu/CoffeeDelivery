@@ -12,7 +12,7 @@ public class ReviewResponseDto {
     private String reviewContent;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private int reviewLikeCount;
+    private Long reviewLikeCount;
 
     public ReviewResponseDto(Review review) {
         this.reviewId = review.getReviewId();

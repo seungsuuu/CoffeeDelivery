@@ -1,5 +1,6 @@
 package com.sparta.coffeedeliveryproject.service;
 
+import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.dto.ReviewRequestDto;
 import com.sparta.coffeedeliveryproject.dto.ReviewResponseDto;
 import com.sparta.coffeedeliveryproject.entity.Cafe;
@@ -10,11 +11,11 @@ import com.sparta.coffeedeliveryproject.repository.CafeRepository;
 import com.sparta.coffeedeliveryproject.repository.OrderRepository;
 import com.sparta.coffeedeliveryproject.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -28,9 +29,20 @@ public class ReviewService {
 
         Cafe cafe = findCafeById(cafeId);
         Order order = findOrderById(orderId);
+
+        if (!order.getUser().getUserId().equals(user.getUserId())) {
+            throw new IllegalArgumentException("자신의 주문에만 리뷰를 남길 수 있습니다.");
+        }
+
+        Review checkReview = reviewRepository.findByOrderOrderId(orderId);
+
+        if (!Objects.isNull(checkReview)) {
+            throw new IllegalArgumentException("해당 주문에 리뷰가 이미 존재합니다.");
+        }
+
         Review review = new Review(requestDto, cafe, order, user);
         Review saveReview = reviewRepository.save(review);
-        return new ReviewResponseDto(review);
+        return new ReviewResponseDto(saveReview);
 
     }
 
@@ -47,20 +59,20 @@ public class ReviewService {
 
         Review review = findReviewById(reviewId);
 
-        if (review.getUser().getUserId() == user.getUserId()) {
+        if (review.getUser().getUserId().equals(user.getUserId())) {
             review.update(requestDto);
             return new ReviewResponseDto(review);
         } else throw new IllegalArgumentException("본인이 작성한 리뷰만 수정 가능합니다.");
 
     }
 
-    public ResponseEntity<String> deleteReview(Long reviewId, User user) {
+    public MessageResponseDto deleteReview(Long reviewId, User user) {
 
         Review review = findReviewById(reviewId);
 
-        if (review.getUser().getUserId() == user.getUserId()) {
+        if (review.getUser().getUserId().equals(user.getUserId())) {
             reviewRepository.delete(review);
-            return ResponseEntity.ok("리뷰가 삭제되었습니다.");
+            return new MessageResponseDto("리뷰가 삭제되었습니다.");
         } else throw new IllegalArgumentException("본인이 작성한 리뷰만 삭제 가능합니다.");
 
     }
