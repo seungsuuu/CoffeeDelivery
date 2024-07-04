@@ -40,6 +40,16 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.OK).body(responseDtoList);
     }
 
+    @GetMapping("/reviews/mylikes")
+    public ResponseEntity<List<ReviewResponseDto>> getReviewsMyLike(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                                    @RequestParam(value = "sortBy", defaultValue = "createdAt") String sortBy,
+                                                                    @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        List<ReviewResponseDto> responseDtoList = reviewService.getReviewsMyLike(page - 1, sortBy, userDetails.getUser());
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDtoList);
+    }
+
     @PutMapping("/reviews/{reviewId}")
     public ResponseEntity<ReviewResponseDto> updateReview(@PathVariable Long reviewId,
                                                           @Valid @RequestBody ReviewRequestDto requestDto,
