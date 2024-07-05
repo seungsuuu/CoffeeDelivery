@@ -30,6 +30,12 @@ public class User {
     private String nickName;
 
     @Column(nullable = false)
+    private Long myLikesCafeCount;
+
+    @Column(nullable = false)
+    private Long myLikesReviewCount;
+
+    @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserStatusEnum userStatus = UserStatusEnum.ACTIVE;
 
@@ -56,12 +62,16 @@ public class User {
         this.userName = userName;
         this.password = password;
         this.nickName = nickName;
+        this.myLikesCafeCount = 0L;
+        this.myLikesReviewCount = 0L;
     }
 
     public User(SignupRequestDto signupRequestDto) {
         this.userName = signupRequestDto.getUserName();
         this.password = signupRequestDto.getPassword();
         this.nickName = signupRequestDto.getNickName();
+        this.myLikesCafeCount = 0L;
+        this.myLikesReviewCount = 0L;
     }
 
     public void addUserRoles(UserRole userRole) {
@@ -90,6 +100,14 @@ public class User {
 
     public void editRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public void updateMyLikesCafeCount(Long myLikesCafeCount) {
+        this.myLikesCafeCount = myLikesCafeCount;
+    }
+
+    public void updateMyLikesReviewCount(Long myLikesReviewCount) {
+        this.myLikesReviewCount = myLikesReviewCount;
     }
 
 }
