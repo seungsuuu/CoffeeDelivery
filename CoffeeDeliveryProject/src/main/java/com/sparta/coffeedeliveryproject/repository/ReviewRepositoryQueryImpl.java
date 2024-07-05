@@ -34,7 +34,7 @@ public class ReviewRepositoryQueryImpl implements ReviewRepositoryQuery {
                 .leftJoin(review.reviewLikeList, reviewLike)
                 .where(reviewLike.user.userId.eq(userId));
 
-        long count = countQuery(userId).fetch().get(0);
+        long count = countReviewByUserLikes(userId);
 
         query.offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
@@ -50,11 +50,14 @@ public class ReviewRepositoryQueryImpl implements ReviewRepositoryQuery {
         return PageableExecutionUtils.getPage(reviewList, pageable, () -> count);
     }
 
-    private JPAQuery<Long> countQuery(Long userId) {
+    @Override
+    public Long countReviewByUserLikes(Long userId) {
         QReview qReview = QReview.review;
         return jpaQueryFactory.select(Wildcard.count)
                 .from(qReview)
-                .where(qReview.reviewLikeList.any().user.userId.eq(userId));
+                .where(qReview.reviewLikeList.any().user.userId.eq(userId))
+                .fetch()
+                .get(0);
     }
 
 }

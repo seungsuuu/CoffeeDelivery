@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReviewRepositoryQuery {
     Page<Review> findReviewByUserLikes(Pageable pageable, Long userId);
+    Long countReviewByUserLikes(Long userId);
 }
