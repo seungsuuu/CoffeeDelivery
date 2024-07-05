@@ -161,4 +161,30 @@ class ReviewRepositoryQueryImplTest {
             }
         }
     }
+
+    @Test
+    @DisplayName("QueryDsl countReviewByUserLikes 테스트")
+    void countReviewByUserLikes() {
+
+        //given
+        userSetup();
+        cafeSetup();
+        orderSetup();
+        reviewSetup();
+
+        Long userId = likeReviewUser.getUserId();
+
+        ReviewLike reviewLike1 = new ReviewLike(likeReviewUser, saveReview1);
+        ReviewLike reviewLike2 = new ReviewLike(likeReviewUser, saveReview2);
+
+        reviewLikeRepository.save(reviewLike1);
+        reviewLikeRepository.save(reviewLike2);
+
+        //when
+        Long actualCount = reviewRepository.countReviewByUserLikes(userId);
+
+        //then
+        assertEquals(2L, actualCount);
+    }
+
 }

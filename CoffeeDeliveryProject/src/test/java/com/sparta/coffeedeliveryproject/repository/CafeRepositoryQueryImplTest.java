@@ -32,6 +32,7 @@ class CafeRepositoryQueryImplTest {
 
     User saveUser;
     Cafe saveCafe;
+    Cafe saveCafe2;
 
     @Autowired
     private UserRepository userRepository;
@@ -44,9 +45,9 @@ class CafeRepositoryQueryImplTest {
 
     private void userSetup() {
 
-        String userName = "tmdtn015";
+        String userName = "tmdtn016";
         String password = "@Tmdtn013";
-        String nickName = "김승수유저2";
+        String nickName = "김승수유저3";
         UserRole userRole = new UserRole("USER");
         Set<UserRole> userRoles = new HashSet<>();
         userRoles.add(userRole);
@@ -63,15 +64,21 @@ class CafeRepositoryQueryImplTest {
         String cafeInfo = "카페정보";
         String cafeAddress = "카페주소";
 
+        String cafeName2 = "카페이름2";
+        String cafeInfo2 = "카페정보2";
+        String cafeAddress2 = "카페주소2";
+
         Cafe cafe = new Cafe(cafeName, cafeInfo, cafeAddress);
+        Cafe cafe2 = new Cafe(cafeName2, cafeInfo2, cafeAddress2);
 
         saveCafe = cafeRepository.save(cafe);
+        saveCafe2 = cafeRepository.save(cafe2);
     }
 
 
     @Test
-    @DisplayName("QueryDsl findByUserLikes 테스트")
-    void findByUserLikes() {
+    @DisplayName("QueryDsl findCafeByUserLikes 테스트")
+    void findCafeByUserLikes() {
 
         //given
         userSetup();
@@ -104,4 +111,28 @@ class CafeRepositoryQueryImplTest {
             }
         }
     }
+
+    @Test
+    @DisplayName("QueryDsl countCafeByUserLikes 테스트")
+    void countCafeByUserLikes() {
+
+        //given
+        userSetup();
+        cafeSetup();
+
+        Long userId = saveUser.getUserId();
+
+        CafeLike cafeLike = new CafeLike(saveUser, saveCafe);
+        CafeLike cafeLike2 = new CafeLike(saveUser, saveCafe2);
+
+        cafeLikeRepository.save(cafeLike);
+        cafeLikeRepository.save(cafeLike2);
+
+        //when
+        Long actualCount = cafeRepository.countCafeByUserLikes(userId);
+
+        //then
+        assertEquals(2L, actualCount);
+    }
+
 }
