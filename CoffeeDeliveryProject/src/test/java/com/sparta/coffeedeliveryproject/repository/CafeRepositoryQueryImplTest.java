@@ -90,7 +90,7 @@ class CafeRepositoryQueryImplTest {
         Pageable pageable = PageRequest.of(page, pageSize, sort);
 
         //when
-        Page<Cafe> cafePage = cafeRepository.findByUserLikes(pageable, userId);
+        Page<Cafe> cafePage = cafeRepository.findCafeByUserLikes(pageable, userId);
         List<Cafe> cafeList = cafePage.getContent();
 
         //then

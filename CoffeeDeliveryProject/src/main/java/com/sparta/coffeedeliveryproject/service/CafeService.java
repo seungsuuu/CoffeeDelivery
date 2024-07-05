@@ -59,7 +59,7 @@ public class CafeService {
         int pageSize = 5;
         Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<CafeResponseDto> cafePage = cafeRepository.findByUserLikes(pageable, user.getUserId()).map(CafeResponseDto::new);
+        Page<CafeResponseDto> cafePage = cafeRepository.findCafeByUserLikes(pageable, user.getUserId()).map(CafeResponseDto::new);
         List<CafeResponseDto> responseDtoList = cafePage.getContent();
 
         if (responseDtoList.isEmpty()) {

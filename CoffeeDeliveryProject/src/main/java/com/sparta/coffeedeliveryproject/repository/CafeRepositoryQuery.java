@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CafeRepositoryQuery {
-    Page<Cafe> findByUserLikes(Pageable pageable, Long userId);
+    Page<Cafe> findCafeByUserLikes(Pageable pageable, Long userId);
+    Long countCafeByUserLikes(Long userId);
 }

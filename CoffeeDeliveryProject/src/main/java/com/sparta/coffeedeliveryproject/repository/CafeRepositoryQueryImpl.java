@@ -25,7 +25,7 @@ public class CafeRepositoryQueryImpl implements CafeRepositoryQuery {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Cafe> findByUserLikes(Pageable pageable, Long userId) {
+    public Page<Cafe> findCafeByUserLikes(Pageable pageable, Long userId) {
 
         QCafe cafe = QCafe.cafe;
         QCafeLike cafeLike = QCafeLike.cafeLike;
@@ -34,7 +34,7 @@ public class CafeRepositoryQueryImpl implements CafeRepositoryQuery {
                 .leftJoin(cafe.cafeLikeList, cafeLike)
                 .where(cafeLike.user.userId.eq(userId));
 
-        long count = countQuery(userId).fetch().get(0);
+        long count = countCafeByUserLikes(userId);
 
         query.offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
@@ -50,11 +50,14 @@ public class CafeRepositoryQueryImpl implements CafeRepositoryQuery {
         return PageableExecutionUtils.getPage(cafeList, pageable, () -> count);
     }
 
-    private JPAQuery<Long> countQuery(Long userId) {
+    @Override
+    public Long countCafeByUserLikes(Long userId) {
         QCafe qCafe = QCafe.cafe;
         return jpaQueryFactory.select(Wildcard.count)
                 .from(qCafe)
-                .where(qCafe.cafeLikeList.any().user.userId.eq(userId));
+                .where(qCafe.cafeLikeList.any().user.userId.eq(userId))
+                .fetch()
+                .get(0);
     }
 
 }
