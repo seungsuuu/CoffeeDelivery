@@ -69,4 +69,9 @@ public class CafeService {
         return responseDtoList;
     }
 
+    public Long countLikesCafeByUser(Long userId) {
+
+        return cafeRepository.countCafeByUserLikes(userId);
+    }
+
 }

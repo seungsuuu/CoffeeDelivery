@@ -117,4 +117,9 @@ public class ReviewService {
 
     }
 
+    public Long countLikesReviewByUser(Long userId) {
+
+        return reviewRepository.countReviewByUserLikes(userId);
+    }
+
 }
