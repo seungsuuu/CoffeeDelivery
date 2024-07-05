@@ -4,6 +4,7 @@ import com.sparta.coffeedeliveryproject.dto.CafeMenuListResponseDto;
 import com.sparta.coffeedeliveryproject.dto.CafeResponseDto;
 import com.sparta.coffeedeliveryproject.dto.MenuResponseDto;
 import com.sparta.coffeedeliveryproject.entity.Cafe;
+import com.sparta.coffeedeliveryproject.entity.User;
 import com.sparta.coffeedeliveryproject.repository.CafeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ public class CafeService {
 
     public List<CafeResponseDto> getAllCafe(int page, String sortBy) {
 
+        int pageSize = 5;
         Sort sort;
 
         if (sortBy.equals("cafeId")) {
@@ -30,7 +32,7 @@ public class CafeService {
             sort = Sort.by(Sort.Direction.DESC, sortBy);
         }
 
-        Pageable pageable = PageRequest.of(page, 5, sort);
+        Pageable pageable = PageRequest.of(page, pageSize, sort);
         Page<CafeResponseDto> CafePage = cafeRepository.findAll(pageable).map(CafeResponseDto::new);
         List<CafeResponseDto> responseDtoList = CafePage.getContent();
 
@@ -50,6 +52,26 @@ public class CafeService {
         List<MenuResponseDto> menuList = cafe.getMenuList().stream().map(MenuResponseDto::new).toList();
 
         return new CafeMenuListResponseDto(cafe, menuList);
+    }
+
+    public List<CafeResponseDto> getCafesMyLike(int page, String sortBy, User user) {
+
+        int pageSize = 5;
+        Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
+        Pageable pageable = PageRequest.of(page, pageSize, sort);
+        Page<CafeResponseDto> cafePage = cafeRepository.findCafeByUserLikes(pageable, user.getUserId()).map(CafeResponseDto::new);
+        List<CafeResponseDto> responseDtoList = cafePage.getContent();
+
+        if (responseDtoList.isEmpty()) {
+            throw new IllegalArgumentException("좋아요한 카페 페이지가 없거나, 입력된 " + (page + 1) + " 페이지에 글이 없습니다.");
+        }
+
+        return responseDtoList;
+    }
+
+    public Long countLikesCafeByUser(Long userId) {
+
+        return cafeRepository.countCafeByUserLikes(userId);
     }
 
 }

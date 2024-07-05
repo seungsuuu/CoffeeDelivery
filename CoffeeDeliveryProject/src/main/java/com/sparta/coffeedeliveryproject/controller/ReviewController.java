@@ -1,11 +1,13 @@
 package com.sparta.coffeedeliveryproject.controller;
 
+import com.sparta.coffeedeliveryproject.dto.MessageResponseDto;
 import com.sparta.coffeedeliveryproject.dto.ReviewRequestDto;
 import com.sparta.coffeedeliveryproject.dto.ReviewResponseDto;
 import com.sparta.coffeedeliveryproject.security.UserDetailsImpl;
 import com.sparta.coffeedeliveryproject.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -20,32 +22,50 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/{cafeId}/orders/{orderId}/reviews")
-    public ReviewResponseDto createReview(@PathVariable Long cafeId,
-                                          @PathVariable Long orderId,
-                                          @Valid @RequestBody ReviewRequestDto requestDto,
-                                          @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<ReviewResponseDto> createReview(@PathVariable Long cafeId,
+                                                          @PathVariable Long orderId,
+                                                          @Valid @RequestBody ReviewRequestDto requestDto,
+                                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        return reviewService.createReview(cafeId, orderId, requestDto, userDetails.getUser());
+        ReviewResponseDto responseDto = reviewService.createReview(cafeId, orderId, requestDto, userDetails.getUser());
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
     @GetMapping("/{cafeId}/reviews")
-    public List<ReviewResponseDto> getReviewCafe(@PathVariable Long cafeId){
+    public ResponseEntity<List<ReviewResponseDto>> getReviewCafe(@PathVariable Long cafeId) {
 
-        return reviewService.getReviewCafe(cafeId);
+        List<ReviewResponseDto> responseDtoList = reviewService.getReviewCafe(cafeId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDtoList);
+    }
+
+    @GetMapping("/reviews/mylikes")
+    public ResponseEntity<List<ReviewResponseDto>> getReviewsMyLike(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                                    @RequestParam(value = "sortBy", defaultValue = "createdAt") String sortBy,
+                                                                    @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        List<ReviewResponseDto> responseDtoList = reviewService.getReviewsMyLike(page - 1, sortBy, userDetails.getUser());
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDtoList);
     }
 
     @PutMapping("/reviews/{reviewId}")
-    public ReviewResponseDto updateReview(@PathVariable Long reviewId,
-                                          @Valid @RequestBody ReviewRequestDto requestDto,
-                                          @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<ReviewResponseDto> updateReview(@PathVariable Long reviewId,
+                                                          @Valid @RequestBody ReviewRequestDto requestDto,
+                                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        return reviewService.updateReview(reviewId, requestDto, userDetails.getUser());
+        ReviewResponseDto responseDto = reviewService.updateReview(reviewId, requestDto, userDetails.getUser());
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
     @DeleteMapping("/reviews/{reviewId}")
-    public ResponseEntity<String> deleteReview(@PathVariable Long reviewId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<MessageResponseDto> deleteReview(@PathVariable Long reviewId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        return reviewService.deleteReview(reviewId, userDetails.getUser());
+        MessageResponseDto responseDto = reviewService.deleteReview(reviewId, userDetails.getUser());
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
 }

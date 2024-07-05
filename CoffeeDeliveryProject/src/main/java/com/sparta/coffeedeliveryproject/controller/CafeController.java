@@ -2,10 +2,12 @@ package com.sparta.coffeedeliveryproject.controller;
 
 import com.sparta.coffeedeliveryproject.dto.CafeMenuListResponseDto;
 import com.sparta.coffeedeliveryproject.dto.CafeResponseDto;
+import com.sparta.coffeedeliveryproject.security.UserDetailsImpl;
 import com.sparta.coffeedeliveryproject.service.CafeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +34,16 @@ public class CafeController {
         CafeMenuListResponseDto responseDto = cafeService.getCafeWithMenuList(cafeId);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
+    @GetMapping("/mylikes")
+    public ResponseEntity<List<CafeResponseDto>> getCafesMyLike(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                          @RequestParam(value = "sortBy", defaultValue = "createdAt") String sortBy,
+                                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        List<CafeResponseDto> responseDtoList = cafeService.getCafesMyLike(page - 1, sortBy, userDetails.getUser());
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDtoList);
     }
 
 }

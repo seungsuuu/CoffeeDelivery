@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -30,7 +31,10 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
-    @Value("${ADMIN_TOKEN}")
+    private final CafeService cafeService;
+    private final ReviewService reviewService;
+
+    @Value("${admin.token.key}")
     String adminToken;
 
     public MessageResponseDto signup(SignupRequestDto signupRequestDto) {
@@ -192,6 +196,27 @@ public class UserService {
         SecurityContextHolder.clearContext();
 
         return new MessageResponseDto("로그아웃이 완료되었습니다.");
+    }
+
+    @Transactional
+    public UserProfileResponseDto getMyProfile(User user) {
+
+        Long userId = user.getUserId();
+        User getProfileUser = findUserById(userId);
+        Long myLikesCafeCount = getProfileUser.getMyLikesCafeCount();
+        Long myLikesReviewCount = getProfileUser.getMyLikesReviewCount();
+        Long selectLikesCafeCount = cafeService.countLikesCafeByUser(userId);
+        Long selectLikesReviewCount = reviewService.countLikesReviewByUser(userId);
+
+        if (!myLikesCafeCount.equals(selectLikesCafeCount)) {
+            getProfileUser.updateMyLikesCafeCount(selectLikesCafeCount);
+        }
+
+        if (!myLikesReviewCount.equals(selectLikesReviewCount)) {
+            getProfileUser.updateMyLikesReviewCount(selectLikesReviewCount);
+        }
+
+        return new UserProfileResponseDto(getProfileUser);
     }
 
     private User findUserById(Long userId) {
